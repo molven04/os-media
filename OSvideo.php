@@ -64,7 +64,6 @@ $exceptions=array(
 );
 
 /*
-//$options['OSvid_player']
 $vjs_skin = $plugin_dir.'/player';
 $vjs_skin_a=OSvid_dir_array($plugin_dir.'/player'.$options['OSvid_player']);
 echo $options['OSvid_player'];
