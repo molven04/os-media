@@ -8,7 +8,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: 
 Tags: autoplay, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, seo, shortcode, youtube, youtube embed, youtube player, youtube videos, video, video analytics, video cover, video HTML5, video seo, vimeo, vimeo player, vimeo embed, vimeo videos
 
-Plugin per l'inserimento di video sia tramite tradizionai shortcode che in modalità "Featured", all'interno di post o pagine WordPress, sia embed da Youtube/Vimeo che self-hosted utilizzando il player HTML5 Videojs.
+This Plugin, based on Videojs HTML5 video-player, is designed to make your Wordpress platform a multimedia station for the distribution of audio/video. We have a dual mode of insertion of multimedia content: 
+(1) "Featured", for video platforms where we have a "Featured video" for each post/page (similar to the "Featured Image" of WP), 
+(2)or with the classic system of shortcodes added to the post textarea.
+
 
 == Description ==
 
