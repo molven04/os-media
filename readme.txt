@@ -12,7 +12,7 @@ Plugin per l'inserimento di video sia tramite tradizionai shortcode che in modal
 
 == Description ==
 
-<a href="http://wordpress.org/extend/plugins/OS-media/description/">Italiano</a> - <a href="http://wordpress.org/plugins/os-media/">English</a>
+<a href="http://wordpress.org/extend/plugins/OS-media/description/">Italiano</a> - <a href="translate.google.com/translate?js=n&sl=auto&tl=en&u=http://wordpress.org/plugins/os-media/">English</a>
 
 Questo Plugin ha l'obiettivo di rendere la propria piattaforma Wordpress una vera e propria stazione multimediale per la distribuzione di audio/video “on-demand”. Ciò attraverso una doppia modalità di inserimento: **"Featured"** per piattaforme video in cui avremo un video "in evidenza" per ogni post/pagina (da usare in abbinamento ad un tema wordpress specifico che stiamo sviluppando!), oppure con il classico meccanismo degli **short code** aggiunti nella textarea. 
 Allo stesso tempo, permette l'inserimento nella propria piattaforma Wordpress di video da <a href="http://www.youtube.com/">Youtube</a>, da <a href="http://vimeo.com/">Vimeo</a> e video memorizzati localmente (self-hosted) attraverso un'unica comoda interfaccia relativa ad ogni singolo post/pagina. Utilizza la tecnologia video HTML5 e dunque il nuovo tag <video> e si appoggia all'ottimo player <a href="http://videojs.org/">Videojs.org</a>.
@@ -45,7 +45,7 @@ Esempi di shortcode:
 
 == Installation ==
 
-<a href="http://wordpress.org/extend/plugins/OS-media/installation/">Italiano</a> - <a href="http://wordpress.org/plugins/os-media/">English</a>
+<a href="http://wordpress.org/extend/plugins/OS-media/installation/">Italiano</a> - <a href="translate.google.com/translate?js=n&sl=auto&tl=en&u=http://wordpress.org/plugins/os-media/">English</a>
 
 = Installazione automatica =
 
@@ -77,7 +77,7 @@ Esempi di shortcode:
 
 == Changelog ==
 
-<a href="http://wordpress.org/extend/plugins/OSmedia/changelog/">Italiano</a> - <a href="http://wordpress.org/plugins/os-media/">English</a> 
+<a href="http://wordpress.org/extend/plugins/OSmedia/changelog/">Italiano</a> - <a href="translate.google.com/translate?js=n&sl=auto&tl=en&u=http://wordpress.org/plugins/os-media/">English</a> 
 
 = Versione 1.0 =
 * Youtube: Inserimento shortcode `[youtube url="url"]`.
