@@ -10,7 +10,7 @@ Tags: autoplay, cover image, cover video, embed, embedding, embed youtube, embed
 
 This Plugin, based on Videojs HTML5 video-player, is designed to make your Wordpress platform a multimedia station for the distribution of audio/video. We have a dual mode of insertion of multimedia content: 
 (1) "Featured", for video platforms where we have a "Featured video" for each post/page (similar to the "Featured Image" of WP), 
-(2)or with the classic system of shortcodes added to the post textarea.
+(2) or with the classic system of shortcodes added to the post textarea.
 
 
 == Description ==
