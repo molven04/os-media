@@ -8,7 +8,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: 
 Tags: autoplay, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, seo, shortcode, youtube, youtube embed, youtube player, youtube videos, video, video analytics, video cover, video HTML5, video seo, vimeo, vimeo player, vimeo embed, vimeo videos
 
-This Plugin, based on Videojs HTML5 video-player, is designed to make your Wordpress platform a multimedia station for the distribution of audio/video. We have a dual mode of insertion of multimedia content: 
+This Plugin is designed to make your Wordpress platform a multimedia station for audio/video content delivery and is based on Videojs HTML5 video-player. 
+We have a dual mode of insertion of multimedia content: 
 (1) "Featured", for video platforms where we have a "Featured video" for each post/page (similar to the "Featured Image" of WP), 
 (2) or with the classic system of shortcodes added to the post textarea.
 
@@ -32,7 +33,7 @@ Per i video caricati in modalità **self-host** attualmente il plugin mette a di
 **NOTA:** in modalità **Featured Video** la funzionalità di **preload** dei video è attivata (il caricamento del video parte appena viene caricata la pagina), nel caso contrario in cui i video sono gestiti dagli short code, il preload è disattivato di default per evitare problemi di gestione delle pagine con video multipli. Tale parametro si può anche forzare tramite l’apposito checkbox.
 Il parametro **Responsive ratio** forza il rapporto d’aspetto rispetto ai valori height e width inseriti in modo da compensare eventuali problemi di visualizzazione nella modalità “responsive”, di default il valore relativo all’aspect ratio 16:9 sarà: (9:16)*100 = 56.25
 
-**Demo online** relativa alla funzionalità **Featured** gestito dal tema Video Elements" di Press75 (il tema di wordpress OStheme è attualmente in fase di sviluppo):
+**Demo online** relativa alla funzionalità **Featured** gestito dal tema specifico "OStheme" (come Child Theme di "Twenty Thirteen") è attualmente ancora in fase di sviluppo:
 * <a href="http://openstream.tv/sep/" title="Demo live">Demo online</a>
 Altre info su questo plugin sul mio blog:
 * <a href="http://www.mariomarino.eu/category/wordpress/" title="OS media for WordPress">Home page</a>
