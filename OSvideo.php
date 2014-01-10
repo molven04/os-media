@@ -9,7 +9,7 @@ Plugin URI: http://mariomarino.eu/
 Description: Self-hosted responsive HTML5 video platform for WordPress, based on the Video.js HTML5 video player library. 
 Allows you to embed video in your post or page using HTML5 with Flash fallback support for non-HTML5 browsers.
 Author: <a href="http://mariomarino.eu/">Mario Marino</a>
-Version: 1.0
+Version: 1.1
 */
 
 $plugin_dir = plugin_dir_path( __FILE__ );
@@ -64,6 +64,7 @@ $exceptions=array(
 );
 
 /*
+//$options['OSvid_player']
 $vjs_skin = $plugin_dir.'/player';
 $vjs_skin_a=OSvid_dir_array($plugin_dir.'/player'.$options['OSvid_player']);
 echo $options['OSvid_player'];
@@ -254,34 +255,33 @@ function OSvid_metabox_field(){
 	
 ?>
 	
-	<fieldset id="#radiobutton" style="float:left; border:solid #767070 1px; width: 270px; margin:5px 15px 10px 0; padding:3px; background:#afafaf;">
-	        <label id="label_r1" for="r1" >self-hosted </label><input id='r1' style="margin-right:20px" class="video_type" type="radio" name="OSvid_type" value="self-hosted" <?php if($postmeta['OSvid_type']=='self-hosted' || !$postmeta['OSvid_type']) echo ' checked="checked" '; ?> />
-	        <label id="label_r2" for="r2" >Youtube </label><input id='r2'  style="margin-right:20px" class="video_type" type="radio" name="OSvid_type" value="youtube"  <?php if($postmeta['OSvid_type']=='youtube') echo ' checked="checked" '; ?>/>
-	        <label id="label_r3" for="r3" >Vimeo </label><input  id='r3' style="margin-right:20px" class="video_type" type="radio" name="OSvid_type" value="vimeo"  disabled <?php //if($postmeta['OSvid_type']=='vimeo') echo ' checked="checked" '; ?> />
+	<fieldset id="#radiobutton" style="float:left; border:solid #767070 1px; width:auto; height:40px; margin:5px 5px 10px 0; padding:3px; background:#afafaf;">
+	        <label id="label_r1" for="r1" >self-hosted </label><input id='r1' style="margin:8px 20px 0 0" class="video_type" type="radio" name="OSvid_type" value="self-hosted" <?php if($postmeta['OSvid_type']=='self-hosted' || !$postmeta['OSvid_type']) echo ' checked="checked" '; ?> />
+	        <label id="label_r2" for="r2" >Youtube </label><input id='r2'  style="margin:8px 20px 0 0" class="video_type" type="radio" name="OSvid_type" value="youtube"  <?php if($postmeta['OSvid_type']=='youtube') echo ' checked="checked" '; ?>/>
+	        <label id="label_r3" for="r3" >Vimeo </label><input  id='r3' style="margin:8px 20px 0 0" class="video_type" type="radio" name="OSvid_type" value="vimeo"  disabled <?php //if($postmeta['OSvid_type']=='vimeo') echo ' checked="checked" '; ?> />
 	 </fieldset>
 	
-	<div id="box_feat" style="float:right; border:solid #767070 1px; width: 270px; margin:5px 0 10px 15px; padding:3px; background:#afafaf;">		
+	<div id="box_feat" style="float:right; border:solid #767070 1px; width: 200px; margin:5px 0 10px 0; padding:3px; background:#afafaf;">		
 		<input id="OSvid_feat" name="OSvid_feat"  <?php if( $postmeta['OSvid_feat']=='on') echo 'checked="checked" '; ?>  type="checkbox" />
 		<label for="<?php echo $postmeta['OSvid_feat'] ?>"><?php echo $metafield['OSvid_feat'] ?>&nbsp;</label>
 	</div>
 		
-	<div id="box_selfhost" style=" clear:both; width:auto; height:120px">
-	
-		<div style="width:600px; height: 120px; float:left">			
+	<div id="box_selfhost" style="clear:both; width:auto; height:auto">
+				
 		<?php $index=1; 
 			foreach ($metafield as $kk=>$vv): 
 				if ($index <=4):?> 
-		<input id="<?php echo $kk ?>" style="margin:3px 3px 3px 0; float:left" type="text" size="80" placeholder="URL" name="<?php echo $kk ?>" value="<?php echo $postmeta[$kk]; ?>" />
+		<input id="<?php echo $kk ?>" style="margin:3px 3px 3px 0; float:left" type="text" size="65" placeholder="URL" name="<?php echo $kk ?>" value="<?php echo $postmeta[$kk]; ?>" />
 		<input id="upload_button<?php echo $index ?>"   style="margin:3px 0 3px 0; float:left" class="button" type="button" value="<?php echo $vv?>" /><br />
 		<?php 	 $index++; endif; 
 			endforeach; ?>
+
+		<!-- IMG PRW -->
+		<?php if($postmeta['OSvid_type']=='self-hosted' && $postmeta['OSvid_img']): ?>
+		<div id="box_img" style="clear:both; margin:10px 0 0 0">
+			<img style="max-height: 90px; max-width: 240px; padding:3px; border: silver solid 1px" src="<?php echo $postmeta['OSvid_img'] ?>"  />
 		</div>
-	
-	<?php if($postmeta['OSvid_type']=='self-hosted' && $postmeta['OSvid_img']): ?>
-	<div id="box_img" style="float:right; margin:10px 0 0 0">
-		<img style="max-height: 90px; max-width: 240px; padding:3px; border: silver solid 1px" src="<?php echo $postmeta['OSvid_img'] ?>"  />
-	</div>
-	<?php endif ?>
+		<?php endif ?>
 	
 	</div>
 	
@@ -290,7 +290,7 @@ function OSvid_metabox_field(){
 		<input style="width: 100px; margin-top:5px;" type="text" id="OSvid_id" name="OSvid_id" value="<?php echo $postmeta['OSvid_id']; ?>" />
 	</div>
 	
-	<div style="float:left; width:100%; margin:5px 0 0 0;">
+	<div style="clear:both; width:100%; margin:5px 0 0 0;">
 		
 		<div style="float:left;">
 		<label for="OSvid_width"><?php echo $metafield['OSvid_width'] ?></label>&nbsp;
@@ -304,7 +304,7 @@ function OSvid_metabox_field(){
 		<select id="OSvid_class" name="OSvid_class">
 			<option value="" <?php if($postmeta['OSvid_class']=='') echo "selected='selected' "; ?> >none</option>
 			<option value="alignleft" <?php if($postmeta['OSvid_class']=='alignleft') echo "selected='selected' "; ?> >alignleft</option>
-			<option value="alignright" <?php if($postmeta['OSvid_class']=='alignright') echo "selected='selected' "; ?> ">alignright</option>
+			<option value="alignright" <?php if($postmeta['OSvid_class']=='alignright') echo "selected='selected' "; ?> >alignright</option>
 		</select>	
 		</div>
 	
@@ -347,7 +347,7 @@ function OSvid_metabox_field(){
 	
 	<div style="height:25px; width:10px"></div>
 		<!-- <input id="reset_btn" style="float:right; width:90px; margin:-20px 0 0 0" class="button-secondary reset_btn" type="submit"  value="Reset Value" name="reset_btn"/> -->
-		<input  id="gen_shortcode"  style="float:right; margin:-20px 0 0 20px; width:135px" class="button-secondary" type="" value="Generate Shortcode" name="shortcode_btn" />
+		<input  id="gen_shortcode"  style="float:right; margin:-20px 0 0 20px; width:auto" class="button-secondary" type="" value="Generate Shortcode" name="shortcode_btn" />
 		<!-- <input style="float:right; margin:0px 0 0 20px;" id="remove_video" class="button-secondary" type="" value="<?php _e("Remove feat video"); ?>" name="save"/> -->
 
 <?php
@@ -609,6 +609,15 @@ _end_;
 
 }
 add_shortcode('youtube', 'OSvid_yt_shortcode'); // associa il tag indicato di uno shortcode alla funzione indicata 
+
+/* The [vimeo] shortcode 
+trasforma i parametri dello shortcode (atts) in tag html */
+function OSvid_vimeo_shortcode($atts, $content=null){
+
+	return $OSvid;
+
+}
+add_shortcode('vimeo', 'OSvid_vimeo_shortcode'); // associa il tag indicato di uno shortcode alla funzione indicata 
 
 // OS media function for FEATURED VIDEO
 function OSmedia_video($post_id) {
