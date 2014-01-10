@@ -1,7 +1,7 @@
 <?php
 /**
  * @package OSvideo
- * @version 1.0
+ * @version 1.1
  */
 /*
 Plugin Name: OS media - HTML5 Featured Video plugin
