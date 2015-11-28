@@ -28,7 +28,7 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		protected function __construct() {
 			// GET OPTS & flattern array
 			self::$OSmedia_options = self::get_settings();
-			// var_dump(self::$OSmedia_options);
+
 			$this->register_hook_callbacks();
 
 			$this->modules = array( 
@@ -155,8 +155,13 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
-
-			update_option( OSmedia_OPTS, OSmedia_Settings::get_default_settings() );
+			// create default options if not exists
+			if( @get_option(OSmedia_OPTS) ) {
+				$opts = @get_option(OSmedia_OPTS);
+			}			
+			if( !isset($opts) || !is_array($opts) ) {
+				update_option( OSmedia_OPTS, OSmedia_Settings::get_default_settings() );
+			}
 
 			if ( $network_wide && is_multisite() ) {
 				$sites = wp_get_sites( array(  'limit' => false ) );
@@ -172,7 +177,7 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		}
 
 		/**
-		 * Runs activation code on a new WPMS site when it's created
+		 * Runs activation code on a new site when it's created
 		 *
 		 * @mvc Controller
 		 *
@@ -211,6 +216,7 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 			}
 
 			$option_name = OSmedia_NAME . '_settings'; 
+			
 			// delete_option( $option_name );			 
 			// For site options in Multisite
 			// delete_site_option( $option_name ); 
