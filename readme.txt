@@ -1,4 +1,4 @@
-=== OS media - HTML5 Featured Video plugin for WordPress ===
+﻿=== OS media - HTML5 Featured Video plugin for WordPress ===
 Contributors: mariomarino
 Requires at least: 3.4
 Tested up to: 4.3
@@ -10,7 +10,7 @@ Tags: autoplay, amazon, s3, cover image, cover video, embed, embedding, embed yo
 
 
 == Description ==
-This Plugin is designed to make your Wordpress platform a multimedia station for video content delivery and is based on Videojs HTML5 video-player at the latest version 5.2.1. 
+This Plugin is designed to make your Wordpress platform a multimedia station for video content delivery and is based on: 
 This plugin is based on:
 (1) <a href=”http://videojs.com/”>Video-js</a> video library version 5.2.1
 (2) The <a href=”https://github.com/iandunn/WordPress-Plugin-Skeleton”>skeleton for an object-oriented/MVC WordPress plugin</a> by Ian Dunn.
