@@ -8,7 +8,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: 
 Tags: autoplay, amazon, s3, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, seo, shortcode, youtube, youtube embed, youtube player, youtube videos, video, video analytics, video cover, video HTML5, video seo, vimeo, vimeo player, vimeo embed, vimeo videos
 
-This Plugin is designed to make your Wordpress platform a multimedia station for video content delivery
+This Plugin is designed to make your Wordpress platform a multimedia station for video content on-demand
 
 == Description ==
 
@@ -47,7 +47,7 @@ shortcode example:
 
 == Installation ==
 
-1. plugin admin panel and option 'add new'.
+1. from plugin admin panel and option select 'add new'.
 2. search fo `OSmedia`.
 3. select 'install'.
 4. Activate the plugin from the Wordpress administration panel.
@@ -57,7 +57,7 @@ shortcode example:
 
 1. General Options: Admin area for HTML5 Player
 2. Metabox area for single post/page
-
+3. Frontpage Twenty Fifteen Wordpress base theme
 
 == Changelog ==
 
