@@ -15,10 +15,6 @@ get_header();
 
     <?php while ( have_posts() ) : the_post(); ?>
 
-    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-        <header class="entry-header"></header><!-- .entry-header -->
-
         <div id="primary" class="content-area">
             <div id="content" class="site-content" role="main">
 
@@ -38,13 +34,11 @@ get_header();
                         ) );
                     ?>
 
-                    <?php edit_post_link( __( 'Edit', 'twentyfifteen' ), '<footer class="entry-footer"><span class="edit-link">', '</span></footer><!-- .entry-footer -->' ); ?>
+                    <?php edit_post_link( __( 'Edit', 'twentyforteen' ), '<footer class="entry-footer"><span class="edit-link">', '</span></footer><!-- .entry-footer -->' ); ?>
                 </div><!-- .entry-content -->
 
             </div>
         </div>
-
-    </article><!-- #post-## -->
 
     <?php endwhile ?>
 

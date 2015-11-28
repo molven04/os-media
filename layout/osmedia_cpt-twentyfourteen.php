@@ -15,10 +15,6 @@ get_header();
 
     <?php while ( have_posts() ) : the_post(); ?>
 
-    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-        <header class="entry-header"></header><!-- .entry-header -->
-
         <div id="primary" class="content-area">
             <div id="content" class="site-content" role="main">
 
@@ -43,8 +39,6 @@ get_header();
 
             </div>
         </div>
-
-    </article><!-- #post-## -->
 
     <?php endwhile ?>
 
