@@ -57,11 +57,13 @@ shortcode example:
 
 1. General Options: Admin area for HTML5 Player
 2. Metabox area for single post/page
-3. Frontpage Twenty Fifteen Wordpress base theme
+3. Frontpage Twenty Fifteen Wordpress theme
 
 == Changelog ==
 
-= Version 1.0 =
+= Version 2.0 =
+
+= 1.0 =
 
 
 == Upgrade Notice ==
