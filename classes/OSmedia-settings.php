@@ -56,7 +56,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			SPOSTATO IN FASE DI ATTIVAZIONE => metodo "activate"
 			*/
 
-			// update_option( self::OPTS, $this->settings );
+			update_option( self::OPTS, $this->settings );
 
 		}
 
