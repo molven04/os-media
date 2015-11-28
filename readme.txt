@@ -21,15 +21,15 @@ This plugin is based on:
 There are two areas in wich can be insert multimedia content: 
  
 1. **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (similar to the "Featured Image" of WP). The best way to display video is to use a specific template (like Osmedia-theme, of course, an example her: <a href="http://openstream.tv/sep/">demo online</a>) or insert the function “Osmedia_video” in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
-2. in normal post or page with the classic **shortcodes** added to the post textarea.
+2. in normal posts or pages is possible to insert custom **shortcodes** in the textarea through new file selector that allow select video from different source server
 
 There are 5 possibility to insert and stream on-demand video:
 
-* from **self-hosted local** WP installation: you must place the PATH of this local video resource (/opt/lampp/htdocs/wp/wp-content/uploads/video)
-* from any **file server** or WP installation: you must place the URL (http://...)
-* from **Amazon S3** (Simple Storage Server)
-* directly uploading (or selecting) in mp4, webm, ogg format the files through Wordpress media uploader (very limited size: depends on the configuration of php and WP)
-* from the platform **Youtube & Vimeo**.
+* from **self-hosted local** WP installation: you must place the PATH of this local video resource (/opt/lampp/htdocs/wp/wp-content/uploads/video) **[main file selector]**
+* from any **file server** or WP installation: you must place the URL (http://...)  **[main file selector]**
+* from **Amazon S3** (Simple Storage Server)  **[main file selector]**
+* directly uploading (or selecting) the files through Wordpress media uploader (very limited size: depends on the configuration of php and WP)  **[single input form for mp4, webm, ogg format and cover image]**
+* from the platform Youtube & Vimeo **[single input form for video ID]**
 
 Option settings:
 There are some configs parameters that are 'general config' not present in single-post settings that are effective for post already created. And default setting that are overwritten by single-post settings parameters.
@@ -62,6 +62,15 @@ shortcode example:
 == Changelog ==
 
 = Version 2.0 =
+* interely redesigned interface with new Custom Post Type area dedicated to featured video content.
+* add new file selector that allow select video from different source server, included Amazon S3.
+* add latest version of video-js player 5.2.1.
+
+= 1.1 =
+* add insert shortcode for youtube video `[youtube url="url"]`.
+* add responsive wrapper for youtube player.
+* add responsive wrapper for HTML5 player.
+* allow play youtube video through video-js HTML5 player
 
 = 1.0 =
 
