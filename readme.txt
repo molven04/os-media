@@ -18,10 +18,10 @@ This plugin is based on:
 * The <a href=”https://github.com/iandunn/WordPress-Plugin-Skeleton>skeleton for an object-oriented/MVC WordPress plugin</a> by Ian Dunn.
 * The <a href=”http://codesamplez.com/programming/php-html5-video-streaming-tutorial>VideoStream</a> class by Md Ali Ahsan Rana.
 
-There are two areas in wich can be insert multimedia content: 
- 
-1. **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (like WP Featured Images). The best way to display video is to use a specific template (like Osmedia-theme, of course, an example her: <a href="http://openstream.tv/sep/">demo online</a>) or insert the function “Osmedia_video” in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
-2. in normal post or page with the classic **shortcodes** added to the post textarea.
+There are two areas in wich can be insert multimedia content:
+
+* **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (like WP Featured Images). The best way to display video is to use a specific template (like Osmedia-theme, of course, an example her: <a href="http://openstream.tv/sep/">demo online</a>) or insert the function “Osmedia_video” in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
+* in normal post or page with the classic **shortcodes** added to the post textarea.
 
 There are 5 possibility to insert and stream on-demand video:
 
@@ -32,19 +32,19 @@ There are 5 possibility to insert and stream on-demand video:
 * from the platform **Youtube & Vimeo**. **[dedicated input]**
 
 **Image poster for video:**
+
 * you can place URL in shortcode for post/page.
 * In custom Post Field you can use the Featured Image, otherwise the plugin try to load file from the same directory with the same name and .jpg extension.
 
 **Option settings:**
+
 There are some configs parameters that are 'general config' not present in single-post settings that are effective for post already created. And default setting that are overwritten by single-post settings parameters.
 
-**Demo online** 
-http://openstream.tv
-Other info on my personal blog:
-* <a href="http://www.mariomarino.eu/category/wordpress/" title="OS media for WordPress">Home page</a>
+**More Info on my personal blog:**
 
-**Shortcode [video]:** 
-shortcode example:
+https://wordpress.org/plugins/os-media/
+
+**Shortcode example:**
 
 `[video file=”demo” fileurl="https://s3-eu-west-1.amazonaws.com/” img="http://.." youtube="KTRVYDwfDyU" width="640" height="360"]`
 
