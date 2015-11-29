@@ -45,6 +45,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 		public static function get_metabox_params() {
 
 			self::$OSmedia_postmeta = array(  
+				'OSmedia_feat' 			=> '', // retrocomp.
 			    'OSmedia_file' 			=> '',
 			    'OSmedia_fileurl'		=> '',
 				'OSmedia_mp4'			=> '',
@@ -446,7 +447,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				}
 			}			
 
-			// echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>'; // MONITOR
+			echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>'; // MONITOR
 			return $out;
 		}
 
@@ -466,12 +467,15 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 			foreach ( $meta as $k => $v ){
 				if( 'OSmedia_'== substr($k, 0, 8) ){
 					$out[$k] = $v[0];
-				////////////////////// RETROCOMPATIBILITÀ: GESTISCE OLD_VARS
+				////////////////////// RETROCOMPATIBILITY: FILTER OLD_VARS
 				}elseif ( 'OSvid_' == substr($k, 0, 6) ){
+					$new_k = '';
 					$new_k = OSmedia_Version_Vars::merge_old_vars_post( $k );
-					$out[$new_k] = $v[0];
-					update_post_meta( $post_id, $v, $v[0] );
-					delete_post_meta( $post_id, $k ); // delete old postmeta
+					if( $new_k !='' ){ // if old postmeta is necessary in new version
+						$out[$new_k] = $v[0];
+						update_post_meta( $post_id, $new_k, $v[0] );
+					}
+					delete_post_meta( $post_id, $k ); // delete old postmeta 
 				}
 				////////////////////////////////////////////////////////////
 			}
@@ -581,7 +585,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 
 				if ( !isset( $new_values[ $key ] ) ) $new_values[ $key ] = '';
 				update_post_meta( $post_id, $key, $new_values[ $key ] );
-				
+
 			}
 			
 		}
@@ -635,6 +639,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 		 */
 		public function init() {
 			self::get_metabox_params();
+
 		}
 
 		/**

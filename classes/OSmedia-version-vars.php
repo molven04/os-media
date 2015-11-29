@@ -56,37 +56,38 @@ if ( ! class_exists( 'OSmedia_Version_Vars' ) ) {
 				foreach ($old_vars as $key => $value) {
 
 					switch ( $key ) {
-						case 'OSvid_autoplay': 				$k1='basic'; $new_k = 'OSmedia_autoplay'; break;
-						case 'OSvid_loop': 					$k1='basic'; $new_k = 'OSmedia_loop'; break;
-						case 'OSvid_preload': 				$k1='basic'; $new_k = 'OSmedia_preload'; break;
-						case 'OSvid_player':				$k1='basic'; $new_k = 'OSmedia_player'; break;
-						case 'OSvid_yt-vjs':				$k1='basic'; $new_k = 'OSmedia_yt_vjs'; break;
-						case 'OSvid_https':					$k1='basic'; $new_k = 'OSmedia_yt_https'; break;
-						case 'OSvid_html5':					$k1='basic'; $new_k = 'OSmedia_yt_html5'; break;
-						case 'OSvid_showinfo':				$k1='basic'; $new_k = 'OSmedia_yt_info'; break;	
-						case 'OSvid_related':				$k1='basic'; $new_k = 'OSmedia_yt_related'; break;	
-						case 'OSvid_logo':					$k1='basic'; $new_k = 'OSmedia_yt_logo'; break;
+						case 'OSvid_autoplay': 				$new_k = 'OSmedia_autoplay'; break;
+						case 'OSvid_autoplay': 				$new_k = 'OSmedia_autoplay'; break;
+						case 'OSvid_loop': 					$new_k = 'OSmedia_loop'; break;
+						case 'OSvid_preload': 				$new_k = 'OSmedia_preload'; break;
+						case 'OSvid_player':				$new_k = 'OSmedia_player'; break;
+						case 'OSvid_yt-vjs':				$new_k = 'OSmedia_yt_vjs'; break;
+						case 'OSvid_https':					$new_k = 'OSmedia_yt_https'; break;
+						case 'OSvid_html5':					$new_k = 'OSmedia_yt_html5'; break;
+						case 'OSvid_showinfo':				$new_k = 'OSmedia_yt_info'; break;	
+						case 'OSvid_related':				$new_k = 'OSmedia_yt_related'; break;	
+						case 'OSvid_logo':					$new_k = 'OSmedia_yt_logo'; break;
 
-						case 'OSvid_width':					$k1='player'; $new_k = 'OSmedia_width'; break;
-						case 'OSvid_height':				$k1='player'; $new_k = 'OSmedia_height'; break;
-						case 'OSvid_skin': 					$k1='player'; $new_k = 'OSmedia_skin'; break;
-						case 'OSvid_responsive': 			$k1='player'; $new_k = 'OSmedia_responsive'; break;
-						case 'OSvid_ratio': 				$k1='player'; $new_k = 'OSmedia_ratio'; break;
-						case 'OSvid_controlbar_position':	$k1='player'; $new_k = 'OSmedia_barpos'; break;
-						case 'OSvid_color_one':				$k1='player'; $new_k = 'OSmedia_color1'; break;
-						case 'OSvid_color_two':				$k1='player'; $new_k = 'OSmedia_color2'; break;
-						case 'OSvid_color_three':			$k1='player'; $new_k = 'OSmedia_color3'; break;
+						case 'OSvid_width':					$new_k = 'OSmedia_width'; break;
+						case 'OSvid_height':				$new_k = 'OSmedia_height'; break;
+						case 'OSvid_skin': 					$new_k = 'OSmedia_skin'; break;
+						case 'OSvid_responsive': 			$new_k = 'OSmedia_responsive'; break;
+						case 'OSvid_ratio': 				$new_k = 'OSmedia_ratio'; break;
+						case 'OSvid_controlbar_position':	$new_k = 'OSmedia_barpos'; break;
+						case 'OSvid_color_one':				$new_k = 'OSmedia_color1'; break;
+						case 'OSvid_color_two':				$new_k = 'OSmedia_color2'; break;
+						case 'OSvid_color_three':			$new_k = 'OSmedia_color3'; break;
 
 							default: $new_k = ''; break;
 					}
 
 					if ($new_k) {
-						$out[$k1][$new_k] = $value;
+						$out[$new_k] = $value;
 					}
 
 				}
 
-				$out['db-version'] = '2.0';
+				$out['OSmedia_db-version'] = OSmedia_base::VERSION;
 			}
 
 			return $out;
@@ -101,9 +102,8 @@ if ( ! class_exists( 'OSmedia_Version_Vars' ) ) {
 		 */
 		public static function merge_old_vars_post( $old_key ) {
 
-			$out = array();
-
 				switch ( $old_key ) {
+						case 'OSvid_feat': 					$new_k = 'OSmedia_feat'; break;
 						case 'OSvid_autoplay': 				$new_k = 'OSmedia_autoplay'; break;
 						case 'OSvid_loop': 					$new_k = 'OSmedia_loop'; break;
 						case 'OSvid_preload': 				$new_k = 'OSmedia_preload'; break;

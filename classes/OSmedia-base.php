@@ -163,6 +163,24 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 				update_option( OSmedia_OPTS, OSmedia_Settings::get_default_settings() );
 			}
 
+			// add demp CPT
+			$post_id = wp_insert_post(array (
+				'post_type' => 'osmedia_cpt',
+				'post_title' => 'OSmedia demo CPT',
+				'post_content' => 'OSmedia demo CPT content',
+				'post_status' => 'publish',
+				'comment_status' => 'closed',   // if you prefer
+				'ping_status' => 'closed',      // if you prefer
+			));
+			if ($post_id) {
+				// insert post meta
+				add_post_meta($post_id, 'OSmedia_mp4', 'https://s3-eu-west-1.amazonaws.com/openstream.tv/SEP/OSmedia_demo1.mp4');
+				add_post_meta($post_id, 'OSmedia_webm', 'https://s3-eu-west-1.amazonaws.com/openstream.tv/SEP/OSmedia_demo1.webm');
+				add_post_meta($post_id, 'OSmedia_autoplay', 'on');
+				add_post_meta($post_id, 'OSmedia_loop', 'on');
+			}
+
+
 			if ( $network_wide && is_multisite() ) {
 				$sites = wp_get_sites( array(  'limit' => false ) );
 

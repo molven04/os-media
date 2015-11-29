@@ -78,6 +78,7 @@ https://wordpress.org/plugins/os-media/
 * allow play youtube video through video-js HTML5 player
 
 = 1.0 =
+* First release
 
 
 == Upgrade Notice ==
