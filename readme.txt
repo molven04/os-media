@@ -20,7 +20,7 @@ This plugin is based on:
 
 There are two areas in wich can be insert multimedia content:
 
-* **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (like WP Featured Images). The best way to display video is to use a specific template (like Osmedia-theme, of course, for more info: http://www.mariomarino.eu/os-media/) or insert the function **Osmedia_video()** in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
+* **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (like WP Featured Images). The best way to display video is to use a specific template (like **Osmedia-theme**, specifically designed for this plugin) or insert the function **Osmedia_video()** in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
 * in normal post or page with the classic **shortcodes** added to the post textarea.
 
 There are 5 possibility to insert and stream on-demand video:
@@ -42,12 +42,14 @@ There are some configs parameters that are 'general config' not present in singl
 
 **More Info on my personal blog:**
 
-https://wordpress.org/plugins/os-media/
+http://www.mariomarino.eu/os-media/
 
 **Shortcode example:**
 
 `[video file=”demo” fileurl="https://s3-eu-west-1.amazonaws.com/” img="http://.." youtube="KTRVYDwfDyU" width="640" height="360"]`
 
+**Variables list:**
+http://www.mariomarino.eu/wp-content/uploads/2013/10/OSmedia_vars.pdf
 
 == Installation ==
 
