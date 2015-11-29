@@ -56,7 +56,7 @@ http://www.mariomarino.eu/os-media/
 **Variables list:**
 http://www.mariomarino.eu/wp-content/uploads/2013/10/OSmedia_vars.pdf
 
-**IMPORTANT NOTE about old version:**
+**IMPORTANT NOTE about old version (1.0):**
 The old post / page create through old version of this plugin MUST be simply manually reloaded in Admin Area and, when appear the video data on the metabox form, click "Generate Shortcode" button. This because in the new version in post and page, video are displayed only through shortcode.
 
 == Installation ==

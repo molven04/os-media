@@ -78,9 +78,10 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 			if( self::$OSmedia_options ) {
 				$options = self::$OSmedia_options;
 				// $player = $options['basic']['OSmedia_player'];
-				if( isset($options['OSmedia_skin']) ) $skin = $options['OSmedia_skin']; else $skin = '';
+				if( isset($options['OSmedia_skin']) ) $skin = $options['OSmedia_skin']; else{};
 				if( isset($options['OSmedia_yt_vjs']) ) $yt_vjs = $options['OSmedia_yt_vjs']; else $yt_vjs = '';
-			}
+			}else $skin = 'video-js'; $yt_vjs = '';
+			
 
 		    $plugins_url = plugins_url( OSmedia_FOLDER );
 		    print "<link rel='stylesheet' type='text/css' href='".$plugins_url."/player/videojs/".$skin.".css' />\n"; 
@@ -193,8 +194,12 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		protected function single_activate( $network_wide ) {
 			foreach ( $this->modules as $module ) {
 				$module->activate( $network_wide );
+				// create default options if not exists
+				if( @get_option(OSmedia_OPTS) ) 
+					$opts = @get_option(OSmedia_OPTS);				
+				if( !isset($opts) || !is_array($opts) ) 
+					update_option( OSmedia_OPTS, OSmedia_settings::get_default_settings() );
 			}
-
 			flush_rewrite_rules();
 		}
 
@@ -207,15 +212,7 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 			foreach ( $this->modules as $module ) {
 				$module->deactivate();
 			}
-
-			$option_name = OSmedia_NAME . '_settings'; 
-			
-			// delete_option( $option_name );			 
-			// For site options in Multisite
-			// delete_site_option( $option_name ); 
-
 			flush_rewrite_rules();
-
 		}
 
 		/**
@@ -235,7 +232,6 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		 * @mvc Controller
 		 */
 		public function register_hook_callbacks() {
-			// add_action( 'activate_plugin', 		'activate' ); // da provare
 			add_action( 'wpmu_new_blog',         __CLASS__ . '::activate_new_site' );
 			// ADD SCRIPTS
 			add_action( 'wp_head', 				__CLASS__ . '::load_resources_frontend' ); // sostituisce il gancio "wp_enqueue_scripts" che da problemi..
