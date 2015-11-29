@@ -16,12 +16,11 @@ get_header();
 
         <?php while ( have_posts() ) : the_post(); ?>
 
-        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+        <article style="padding-top:0" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+
+            <header class="entry-header"></header><!-- .entry-header -->
 
             <?php  echo OSmedia_video() ?>
-
-            <header class="entry-header">                
-            </header><!-- .entry-header -->
 
             <div class="entry-content" style="margin-top:20px">
                 <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>

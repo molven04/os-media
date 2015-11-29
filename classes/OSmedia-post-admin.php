@@ -447,7 +447,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				}
 			}			
 
-			echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>'; // MONITOR
+			// echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>'; // MONITOR
 			return $out;
 		}
 
@@ -621,6 +621,33 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 			self::create_post_type();
 			self::create_taxonomies();
 
+			// add demo CPT
+			$cpt_id = @wp_insert_post(array (
+				'post_type' => 'osmedia_cpt',
+				'post_title' => 'OSmedia Demo Featured Video',
+				'post_content' => 'OSmedia Demo CPT - Featured Video Content',
+				'post_status' => 'publish',
+				'comment_status' => 'closed', 
+				'ping_status' => 'closed'
+			));
+			if ($cpt_id && !is_wp_error( $cpt_id ) ) {
+				add_post_meta($cpt_id, 'OSmedia_mp4', 'https://s3-eu-west-1.amazonaws.com/openstream.tv/SEP/OSmedia_demo1.mp4');
+				add_post_meta($cpt_id, 'OSmedia_webm', 'https://s3-eu-west-1.amazonaws.com/openstream.tv/SEP/OSmedia_demo1.webm');
+				add_post_meta($cpt_id, 'OSmedia_autoplay', 'on');
+				add_post_meta($cpt_id, 'OSmedia_loop', 'on');
+			}
+
+			// add featured video page
+			$page_id = @wp_insert_post(array (
+				'post_type' => 'page',
+				'post_title' => 'OSmedia Featured Video',
+				'post_status' => 'publish',
+				'comment_status' => 'closed', 
+				'ping_status' => 'closed'
+			));
+	        if ( $page_id && !is_wp_error( $page_id ) ){
+	            update_post_meta( $page_id, '_wp_page_template', 'featured_video_list.php' );
+	        }
 		}
 
 
@@ -638,6 +665,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 		 * @mvc Controller
 		 */
 		public function init() {
+
 			self::get_metabox_params();
 
 		}

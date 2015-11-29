@@ -9,10 +9,6 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 	 */
 	class OSmedia_Post_Frontend extends OSmedia_Module  {
 
-		// public static $OSmedia_postmeta = array();
-
-		// private static $options = array();
-
 		public static $video_ext = array('mp4', 'ogg', 'ogv', 'webm'); // Arrays are not allowed in class constants in PHP :(
 
 		/////////////////////////////// Magic methods ////////////////////////////////////
@@ -33,8 +29,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 
 		/**
 		 * Metodo per il confronto dei parametri del singolo post (meta), con quelli generali (option). 
-		 * Se il post è nuovo (is_edit_page('new')) i parametri meta INIZIALI sono pescati dalle options generali. 
-		 * Se si edita un post esistente sono pescati dai suoi custom field
+		 * 
 		 *
 		 * @mvc Model 
 		 *
@@ -92,6 +87,10 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 				$view = 'frontend/youtube.php'; 
 			}elseif( $atts['type'] == 'vimeo' ) {  																// 4. Vimeo
 				$view = 'frontend/vimeo.php'; 
+			/* RETROCOMP ////////////////
+			}elseif( $atts['type'] == 'old_version' ) { 
+				echo 'GUHGHGIHGIHGIHGIGIHGIHGIHGIHGIGI'.do_shortcode( $atts );  
+			////////////////////////////*/
 			}else{ 																								// 5. standard HTML5
 				$view = 'frontend/standard.php'; 
 			}
@@ -127,7 +126,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			if ( $cpt_flag ) $shortcode = null; 	// azzera eventuali shortcode nei CPT
 			// echo '<pre> SHORTCODE:'; var_dump($shortcode); echo '</pre>';
 
-			$base_atts = self::OSmedia_data_model(); 	// carica i dati e li elabora pescanda dai postmeta (solo CPT)
+			$base_atts = self::OSmedia_data_model(); 	// carica i dati e li elabora pescando dai postmeta (solo CPT)
 			// echo '<pre> BASE_ATTS:'; var_dump($base_atts); echo '</pre>';
 
 			// remove prefix keys array
@@ -182,6 +181,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			if ( isset($atts['fallback2']) && (($atts['fallback2'] == "true" || $atts['fallback2'] == "on" )) AND !empty($atts['vimeo']) AND !$atts['fallback1'] ) {
 				if( !empty($atts['vimeo']) ) $atts['type'] ='vimeo';
 			}	
+			// if( isset($atts['feat']) && $atts['feat'] == 'true' ) $atts['type'] = 'old_version'; // retrocomp.
 
 			// poster image controller
 			// CPT
@@ -189,7 +189,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 				// if ( $file && $filepath && $file != '' && $filepath != '' && @getimagesize($filepath . $file . ".jpg") ) $atts['img'] = $filepath . $file. ".jpg";
 				$post_thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
 				if( isset($post_thumbnail[0]) ) $atts['img'] = $post_thumbnail[0]; 
-				else $atts['img'] = $filepath . $file. ".jpg";
+				elseif( $filepath && $file ) $atts['img'] = $filepath . $file. ".jpg";
 			}elseif( isset($atts['yt_vjs']) && $atts['yt_vjs'] =='true' && isset($atts['type']) && $atts['type'] == 'youtube'){
 				$atts['img'] = 'img'; // temporary trick
 			// POST
@@ -337,18 +337,14 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 		 * @mvc Controller
 		 */
 		public function register_hook_callbacks() {
-			// global $post; // NON FUNZIONA: DA CAPIRE PERCHÈ
-			//////////////////// CPT & POST
 
-			add_action( 'init', array( $this, 			'init' ) );
-
-			// RIMOSSO PER AVERE MAGGIORE CONTROLLO NEL TEMPLATE: NEI CPT IL VIDEOPLAYER È GENERATO DELLA FUNZIONE OSmedia_videoplayer()
+			add_action( 'init', array( $this, 'init' ) );
 			// add_action( 'get_template_part_content', 	__CLASS__ . '::get_videoplayer' );
 			// soluz. provvisoria
 			if( isset(self::$OSmedia_options['OSmedia_shortcode']) ) 
-				add_shortcode( self::$OSmedia_options['OSmedia_shortcode'], 	__CLASS__ . '::get_videoplayer' ); 
-			// RETRO-COMPATIBILITA'
-			add_shortcode( 'youtube', 	__CLASS__ . '::get_videoplayer' );
+				add_shortcode( self::$OSmedia_options['OSmedia_shortcode'], __CLASS__ . '::get_videoplayer' ); 
+			// RETRO-COMPATIBILITY
+			add_shortcode( 'youtube', __CLASS__ . '::get_videoplayer' );
 
 			add_filter( 'template_include', __CLASS__ . '::include_template_function', 1, 2);
 
@@ -378,8 +374,9 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 		 * @mvc Controller
 		 */
 		public function init() {
-			// OSmedia_Post_Admin::get_options();
+
 			OSmedia_Post_Admin::get_metabox_params();
+
 		}
 
 		/**

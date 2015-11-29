@@ -135,6 +135,14 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public function activate( $network_wide ) {
 
+			// create default options if not exists
+			if( @get_option(OSmedia_OPTS) ) {
+				$opts = @get_option(OSmedia_OPTS);
+			}			
+			if( !isset($opts) || !is_array($opts) ) {
+				update_option( OSmedia_OPTS, OSmedia_Settings::get_default_settings() );
+			}
+
 		}
 
 		/**

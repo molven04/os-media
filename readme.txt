@@ -20,10 +20,10 @@ This plugin is based on:
 
 There are two areas in wich can be insert multimedia content:
 
-* **Custom Post Type for "Featured Video"**, ideal for video platforms where we have a single "Featured video" for each page (like WP Featured Images). The best way to display video is to use a specific template (like **Osmedia-theme**, specifically designed for this plugin) or insert the function **Osmedia_video()** in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen.
+* **Custom Post Type for "Featured Video"**, specifically dedicated to video platforms where we have a single "Featured video" for each page (like WP Featured Images). 
 * in normal post or page with the classic **shortcodes** added to the post textarea.
 
-There are 5 possibility to insert and stream on-demand video:
+There are 5 possibility to insert video:
 
 * from **self-hosted local** WP installation: you must place the PATH of this local video resource (/opt/lampp/htdocs/wp/wp-content/uploads/video) **[main file selector]**
 * from any **file server** or WP installation: you must place the URL (http://...) **[main file selector]**
@@ -31,10 +31,15 @@ There are 5 possibility to insert and stream on-demand video:
 * directly uploading (or selecting) files through Wordpress media uploader (very limited size: depends on the configuration of php and WP) **[dedicated input for each format: mp4, webm, ogg]**
 * from the platform **Youtube & Vimeo**. **[dedicated input]**
 
+**OSmedia Featured video - Custom Post Type:**
+
+For this type of page, the best way to display video is to use a specific template (like **Osmedia-theme**, specifically designed for this plugin) or you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. You can also customize the file **layout/osmedia_cpt.php** loaded by default, if your theme was not recognized.
+
 **Image poster for video:**
 
 * you can place URL in shortcode for post/page.
 * In custom Post Field you can use the Featured Image, otherwise the plugin try to load file from the same directory with the same name and .jpg extension.
+ 
 
 **Option settings:**
 
@@ -50,6 +55,9 @@ http://www.mariomarino.eu/os-media/
 
 **Variables list:**
 http://www.mariomarino.eu/wp-content/uploads/2013/10/OSmedia_vars.pdf
+
+**IMPORTANT NOTE about old version:**
+The old post / page create through old version of this plugin MUST be simply manually reloaded in Admin Area and, when appear the video data on the metabox form, click "Generate Shortcode" button. This because in the new version in post and page, video are displayed only through shortcode.
 
 == Installation ==
 
