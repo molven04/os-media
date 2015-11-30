@@ -15,8 +15,8 @@ elseif( substr( $OSmedia_fileurl, 0, 10 ) === "https://s3" ) $server_no = 3;
 
 <table class="metabox_table">
 <thead></thead>
-	<th>video identification options</th>
-	<th>on-fly local upload (only small video)</th>
+	<th>video identification</th>
+	<th>on-fly local upload (MAX upload file-size: <?php echo ini_get('post_max_size') ?>)</th>
 <tr>
 	<td>
 

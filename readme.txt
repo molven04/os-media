@@ -1,4 +1,4 @@
-﻿=== OS media - HTML5 Featured Video plugin for WordPress ===
+﻿=== OS media video - HTML5 Featured Video
 Contributors: mariomarino
 Requires at least: 3.4
 Tested up to: 4.3
@@ -12,18 +12,18 @@ This Plugin is designed to make your Wordpress platform a multimedia station for
 
 == Description ==
 
-This plugin is based on:
+OS-media video plugin is based on:
 
 * <a href=”http://videojs.com/>Video-js</a> video library version 5.2.1
 * The <a href=”https://github.com/iandunn/WordPress-Plugin-Skeleton>skeleton for an object-oriented/MVC WordPress plugin</a> by Ian Dunn.
 * The <a href=”http://codesamplez.com/programming/php-html5-video-streaming-tutorial>VideoStream</a> class by Md Ali Ahsan Rana.
 
-There are two areas in wich can be insert multimedia content:
+There are two areas where you can insert multimedia content:
 
-* **Custom Post Type for "Featured Video"**, specifically dedicated to video platforms where we have a single "Featured video" for each page (like WP Featured Images). 
 * in normal post or page with the classic **shortcodes** added to the post textarea.
+* in specific **Custom Post Type for "Featured Video"**, a dedicated area to make video platforms where we have a single "Featured video" for each page (like WP Featured Images). 
 
-There are 5 possibility to insert video:
+And there are 5 possibility to insert video:
 
 * from **self-hosted local** WP installation: you must place the PATH of this local video resource (/opt/lampp/htdocs/wp/wp-content/uploads/video) **[main file selector]**
 * from any **file server** or WP installation: you must place the URL (http://...) **[main file selector]**
@@ -33,17 +33,17 @@ There are 5 possibility to insert video:
 
 **OSmedia Featured video - Custom Post Type:**
 
-For this type of page, the best way to display video is to use a specific template (like **Osmedia-theme**, specifically designed for this plugin) or you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latests WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. You can also customize the file **layout/osmedia_cpt.php** loaded by default, if your theme was not recognized.
+For this type of page, the best way to display video is to use a specific template (like **Os-media theme**, specifically designed for this plugin) or you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latest WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. If your theme is not recognized, is loaded by default the file **layout/osmedia_cpt.php**, that you can edit and customize for display your featured video.
 
 **Image poster for video:**
 
-* you can place URL in shortcode for post/page.
-* In custom Post Field you can use the Featured Image, otherwise the plugin try to load file from the same directory with the same name and .jpg extension.
+* For normal post&page you can place poster URL in shortcode.
+* In custom Post Field you can use the WP Featured Image, otherwise the plugin try to load image file from the same directory with the same name and .jpg extension.
  
 
 **Option settings:**
 
-There are some configs parameters that are 'general config' not present in single-post settings that are effective for post already created. And default setting that are overwritten by single-post settings parameters.
+Some configs parameters are **general config**, not present in single-post settings, this one are effective for post already created (for example: "local video path", or "player skin"). And some other config parameters for **default setting** that are overwritten by the same settings parameters present in single-post (for example: "width", or "autoplay").
 
 **More Info on my personal blog:**
 
@@ -53,11 +53,12 @@ http://www.mariomarino.eu/os-media/
 
 `[video file=”demo” fileurl="https://s3-eu-west-1.amazonaws.com/” img="http://.." youtube="KTRVYDwfDyU" width="640" height="360"]`
 
-**Variables list:**
+**List of all parameters of OS-media video:**
 http://www.mariomarino.eu/wp-content/uploads/2013/10/OSmedia_vars.pdf
 
 **IMPORTANT NOTE about old version (1.0):**
-The old post / page create through old version of this plugin MUST be simply manually reloaded in Admin Area and, when appear the video data on the metabox form, click "Generate Shortcode" button. This because in the new version in post and page, video are displayed only through shortcode.
+The old **featured video post** create through old version of this plugin MUST be simply manually reloaded in Admin Area and, when appear the video data on the metabox form, click "Generate Shortcode" button and save post. 
+This because in the new version in normal post and page, video are displayed only through shortcode.
 
 == Installation ==
 
