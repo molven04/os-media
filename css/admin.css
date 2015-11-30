@@ -1,0 +1,40 @@
+
+input, select {clear:both;}
+
+.metacheck {margin:10px 0 10px 0; padding:2px; /*background-color:#e8e8e8;*/}
+
+/*  admin area */
+
+table.form-table {}
+	table.form-table tbody tr th, table.form-table tbody tr td {padding:4px; margin:3px;}
+
+/* custom post type list - category */
+#post_thumb {width:80px; }
+	.wp-post-image {max-height: 50px;}
+
+table.form-table input {border:solid silver 1px;}
+/* metafield post */
+
+table.metabox_table {border:solid silver 1px; width: 100%; background-color: #efefef}
+	table.metabox_table th { text-align: left; }
+	table.metabox_table tr td:nth-child(1) { min-width: 200px;}
+	table.metabox_table tr td:nth-child(2) { }
+
+div.box_video {width:auto; padding:8px; background-color: #eee}
+div.inside p {margin:4px; padding:0;}
+
+#OSmedia_file {min-width:100px;}
+select option.default_opt{ font-style: italic; }
+
+input.size_field {width:60px;}
+input.size_field_height {width:60px; margin-left: 20px}
+input#gen_shortcode, input#reset_btn  {width: 150px; margin:0 8px 0 8px;}
+
+ul.server-monitor-list{}
+	ul.server-monitor-list li {margin:0; padding:0; line-height: 1; }
+		ul.server-monitor-list li span { width:150px; }
+		ul.server-monitor-list li.ok span { color: green; font-weight: bold}
+		ul.server-monitor-list li.unset span { color: orange; font-weight: bold}
+		ul.server-monitor-list li.error span { color: red; font-weight: bold}
+
+.xdebug-var-dump {font-size:12px}

@@ -1,0 +1,66 @@
+/*
+OS-skin by openstream.it
+Player Skin Designer for Video.js
+http://videojs.com
+*/
+.video-js {
+  font-size: 10px;
+  color: #fff;
+}
+
+.vjs-default-skin .vjs-big-play-button, .video-js .vjs-big-play-button {
+
+  font-size: 5em;
+  line-height: 1.5em;
+  height: 1.5em;
+  width: 2em;
+  /* 0.06666em = 2px default */
+  border: 0;
+  /* 0.3em = 9px default */
+  border-radius: 0;
+  /* Align center */
+  left: 50%;
+  top: 50%;
+  margin-left: -1em;
+  margin-top: -0.75em;
+
+}
+
+/* The default color of control backgrounds. */
+.video-js .vjs-control-bar,
+.video-js .vjs-big-play-button,
+.video-js .vjs-menu-button .vjs-menu-content {
+  /* IE8 - has no alpha support */
+  background-color: #2B333F;
+  /* Opacity: 1.0 = 100%, 0.0 = 0% */
+  background-color: rgba(43, 51, 63, 0.7);
+}
+
+/* Slider - used for Volume bar and Progress bar */
+.video-js .vjs-slider {
+  background-color: #73859f;
+  background-color: rgba(115, 133, 159, 0.5);
+}
+
+/* The slider bar color is used for the progress bar and the volume bar (the first two can be removed after a fix that's coming) */
+.video-js .vjs-volume-level,
+.video-js .vjs-play-progress,
+.video-js .vjs-slider-bar {
+  background: #fff;
+}
+
+/* The main progress bar also has a bar that shows how much has been loaded. */
+.video-js .vjs-load-progress {
+  /* For IE8 we'll lighten the color */
+  background: ligthen(#73859f, 25%);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba(115, 133, 159, 0.5);
+}
+
+/* The load progress bar also has internal divs that represent  smaller disconnected loaded time ranges */
+.video-js .vjs-load-progress div {
+  /* For IE8 we'll lighten the color */
+  background: ligthen(#73859f, 50%);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba(115, 133, 159, 0.75);
+}
