@@ -34,13 +34,13 @@
 
 <?php else: ?>
 
-	<?php if( $responsive ) echo '<div class="container">'; ?>
-		<iframe type="text/html" <?php if( !$responsive ) echo ' width="'.$width.'" height="'.$height.'" '; ?>
+	<?php if( isset($responsive) && $responsive ) echo '<div class="container">'; ?>
+		<iframe type="text/html" <?php if( !isset($responsive) ) echo ' width="'.$width.'" height="'.$height.'" '; ?>
 		src="//www.youtube.com/embed/<?php echo $youtube_source ?> "
 		frameborder="0" allowfullscreen
-		<?php if( $responsive ) echo ' class="iframe-video"' ?>>
+		<?php if( isset($responsive) && $responsive ) echo ' class="iframe-video"' ?>>
 		</iframe>
-	<?php if( $responsive ) echo '</div>'; ?>
+	<?php if( isset($responsive) && $responsive ) echo '</div>'; ?>
 
 <?php endif ?>
 <!-- End YOUTUBE -->

@@ -67,6 +67,31 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 		}
 
 		/**
+		 * Defines the video-tag for OLD version shortcode for youtube 
+		 * YOUTUBE OLD SHORTCODE RETROCOMP
+		 * @mvc Controller
+		 *
+		 * @param array $attributes
+		 * return string
+		 */
+		public static function get_old_yt_videoplayer( $atts = null ) {
+			global $post;
+			$options = self::$OSmedia_options;
+
+			shortcode_atts( array(
+				'width'     => $options['OSmedia_width'],
+				'height'    => $options['OSmedia_height'],
+				'id'      => ''
+			), $atts );
+
+			$atts['youtube'] = $atts['id']; 
+			$atts['youtube_source'] = self::get_youtube_source( $atts );
+
+			// echo '--ID-->'.$atts['id'].'-->'.$options['OSmedia_width']; var_dump($atts);
+			return self::render_template( 'frontend/youtube.php', $atts, 'always' );
+		}
+
+		/**
 		 * Defines the video-tag
 		 *
 		 * @mvc Controller
@@ -116,15 +141,8 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			global $post;
 			$options = self::$OSmedia_options;
 			if( get_post_type($post->ID) == POST_TYPE_SLUG ) $cpt_flag = true; else $cpt_flag = false;
-
-			//////////////// youtube retrocompatibilità
-			$page_id = get_queried_object_id();	$page_object = get_page( $page_id );
-			if ( has_shortcode($page_object->post_content, 'youtube') ) $flag_old_yt_shortcode = true; else $flag_old_yt_shortcode = false;
-			// echo '----------->>>>>>>'.$page_object->post_content.'-----xxxx--------'.$flag_old_yt_shortcode;
-			//////////////////////////////////////////// 
-				
+	
 			if ( $cpt_flag ) $shortcode = null; 	// azzera eventuali shortcode nei CPT
-			// echo '<pre> SHORTCODE:'; var_dump($shortcode); echo '</pre>';
 
 			$base_atts = self::OSmedia_data_model(); 	// carica i dati e li elabora pescando dai postmeta (solo CPT)
 			// echo '<pre> BASE_ATTS:'; var_dump($base_atts); echo '</pre>';
@@ -225,8 +243,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 
 			if (isset($atts['color3']) ) $atts['color3'] = self::OSmedia_hex2RGB($atts['color3']);
 
-			// youtube		
-			if ( $flag_old_yt_shortcode && isset($atts['id']) && $atts['id'] != '' ) $atts['youtube'] = $atts['id']; // youtube retrocompatibilità 
+			// youtube
 			$atts['youtube_source'] = self::get_youtube_source( $atts );
 
 			// flag CPT
@@ -257,7 +274,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			if ( isset($yt_info) && $yt_info == "true") 	$showinfo_attribute = "showinfo=0&"; else $showinfo_attribute = "";
 			if ( isset($yt_related) && $yt_related == "true") 	$related_attribute = "rel=0&"; else $related_attribute = "";
 			if ( isset($yt_logo) && $yt_logo == "true") 	$logo_attribute = "modestbranding=0&"; else $logo_attribute = "";
-			if ( $start_m || $start_s ) {
+			if ( (isset($start_m) && $start_m) || ( isset($start_s) && $start_s ) ) {
 				$start=(60*$start_m) + $start_s; // total seconds
 				$start_attribute = "start=".$start."&";
 			}else{
@@ -344,7 +361,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			if( isset(self::$OSmedia_options['OSmedia_shortcode']) ) 
 				add_shortcode( self::$OSmedia_options['OSmedia_shortcode'], __CLASS__ . '::get_videoplayer' ); 
 			// RETRO-COMPATIBILITY
-			add_shortcode( 'youtube', __CLASS__ . '::get_videoplayer' );
+			add_shortcode( 'youtube', __CLASS__ . '::get_old_yt_videoplayer' );
 
 			add_filter( 'template_include', __CLASS__ . '::include_template_function', 1, 2);
 
