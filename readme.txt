@@ -1,4 +1,4 @@
-﻿=== OS media video - HTML5 Featured Video
+=== OS media video - HTML5 Featured Video
 Contributors: mariomarino
 Requires at least: 3.4
 Tested up to: 4.3
@@ -104,3 +104,4 @@ This because in the new version in normal post and page, video are displayed onl
 * interely redesign interface with new Custom Post Type area dedicated to featured video content.
 * add new file selector that allow select video from different source server, included Amazon S3.
 * add latest version of video-js player 5.2.1.
+
