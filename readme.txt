@@ -1,5 +1,5 @@
-=== OS media video - HTML5 Featured Video
-Contributors: mariomarino
+=== OS media video - HTML5 Featured Video ===
+Contributors: mario marino
 Requires at least: 3.4
 Tested up to: 4.3
 Stable tag: 2.0
