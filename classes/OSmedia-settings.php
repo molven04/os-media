@@ -56,7 +56,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			SPOSTATO IN FASE DI ATTIVAZIONE => metodo "activate"
 			*/
 
-			update_option( self::OPTS, $this->settings );
+			// update_option( self::OPTS, $this->settings );
 
 		}
 
@@ -404,7 +404,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public function validate_settings( $new_settings ) {
 
-			$new_settings = shortcode_atts( self::get_default_settings(), $new_settings );
+			$new_settings = shortcode_atts( $this->settings, $new_settings );
 
 			if ( ! is_string( $new_settings['db-version'] ) || $new_settings['db-version'] == '' ) 
 				$new_settings['db-version'] = OSmedia_base::VERSION;		
