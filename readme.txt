@@ -113,3 +113,7 @@ This because in the new version in normal post and page, video are displayed onl
 * add new file selector that allow select video from different source server, included Amazon S3.
 * add latest version of video-js player 5.2.1.
 
+= 2.1 =
+* Optimized OS-media theme integration.
+* add video-js skin.
+* fixed bug in settings option area.
