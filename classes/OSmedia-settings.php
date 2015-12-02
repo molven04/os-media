@@ -8,6 +8,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 	class OSmedia_Settings extends OSmedia_Module {
 
 		protected $settings;
+		protected static $default_settings;
 
 		protected static $readable_properties  = array( 'settings' );
 		protected static $writeable_properties = array( 'settings' );
@@ -56,7 +57,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			SPOSTATO IN FASE DI ATTIVAZIONE => metodo "activate"
 			*/
 
-			// update_option( self::OPTS, $this->settings );
+			update_option( self::OPTS, $this->settings );
 
 		}
 
@@ -151,8 +152,8 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public function init() {
 			// opts
-			$this->settings = self::$OSmedia_options;
-
+			self::$default_settings = self::get_default_settings();
+			$this->settings = self::get_settings();
 		}
 
 		/**
@@ -201,13 +202,13 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			$opts = array( 
 				'OSmedia_path' 		=> ABSPATH . 'wp-content/uploads/',
 				'OSmedia_url' 		=> '' ,
-				'OSmedia_autoplay'	=> '' ,
-				'OSmedia_loop'		=> '' ,				
-				'OSmedia_preload'	=> '' ,
+				'OSmedia_autoplay'	=> 'off' ,
+				'OSmedia_loop'		=> 'off' ,				
+				'OSmedia_preload'	=> 'off' ,
 				'OSmedia_player'	=> 'videojs',
 				'OSmedia_shortcode'	=> 'video',
-				'OSmedia_fallback1' => '' ,
-				'OSmedia_fallback2' => '' ,
+				'OSmedia_fallback1' => 'off' ,
+				'OSmedia_fallback2' => 'off' ,
 
 				'OSmedia_s3enable'  => '' ,
 				'OSmedia_s3server'  => '' ,
@@ -227,8 +228,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 				'OSmedia_height'	=> '405' ,				
 				'OSmedia_skin'		=> 'OS-skin' ,
 				'OSmedia_responsive'=> 'on' ,
-				'OSmedia_ratio'  	=> '16:9' ,
-				'OSmedia_barpos'  	=> 'on' ,
+				'OSmedia_ratio'  	=> 'vjs-16-9' ,
 				'OSmedia_color1'	=> '#fff' ,
 			   	'OSmedia_color2' 	=> '#fff' ,
 			   	'OSmedia_color3' 	=> '#2b333f',
@@ -236,6 +236,37 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			);
 
 			return $opts;
+		}
+
+		/**
+		 * Retrieves all of the settings from the database
+		 *
+		 * @mvc Model
+		 *
+		 * @return array
+		 */
+		protected static function get_settings() {
+			
+			$settings = shortcode_atts(
+				self::$default_settings,
+				get_option( OSmedia_OPTS, array() )
+			);
+
+			return $settings;
+/*
+			$base_opts = self::get_default_settings();
+			$opts = get_option( OSmedia_OPTS, array() );
+			// define index for null parameters
+			foreach( $base_opts as $k => $v ) {
+				// if( is_array($v) ) {
+					// foreach ( $v as $kk => $vv ) {
+						if( isset($opts[$k]) ) $settings_complete[$k] = $opts[$k];
+						else $settings_complete[$k] = '';
+					// }
+				// }
+			} 
+			return $settings_complete;
+*/
 		}
 
 		/**
@@ -260,11 +291,10 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public static function register_settings_pages() {
 
-			// MM2015-09
 			add_menu_page('Video Settings', 'OSmedia conf.', self::REQUIRED_CAPABILITY, self::OPTS, __CLASS__ . '::markup_settings_page');
 			
 			add_submenu_page(self::OPTS, OSmedia_NAME, 'Base config', self::REQUIRED_CAPABILITY, self::OPTS, __CLASS__ . '::markup_settings_page'); 
-			add_submenu_page(self::OPTS, OSmedia_NAME, 'Player config', self::REQUIRED_CAPABILITY, 'OSmedia_settings_player', __CLASS__ . '::markup_settings_page_player'); 
+			// add_submenu_page(self::OPTS, OSmedia_NAME, 'Player config', self::REQUIRED_CAPABILITY, 'OSmedia_settings_player', __CLASS__ . '::markup_settings_page_player'); 
 
 		}
 
@@ -327,28 +357,20 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			add_settings_field('OSmedia_s3secret', 'S3 secret key', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3secret' ));
 			add_settings_field('OSmedia_s3bucket', 'S3 bucket', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3bucket' ));
 			add_settings_field('OSmedia_s3dir', 'S3 directory', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3dir' ));
+			////////////////////////////// Player Section 
+			add_settings_section('OSmedia_section_player', 'Player Settings', __CLASS__ . '::markup_section_headers', self::OPTS);
+			add_settings_field('OSmedia_width', 'width', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_width' ));
+			add_settings_field('OSmedia_height', 'height', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_height' ));
+			add_settings_field('OSmedia_responsive', 'Responsive Video', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_responsive' ));
+			add_settings_field('OSmedia_ratio', 'Responsive aspect ratio', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_ratio' ));
+			add_settings_field('OSmedia_skin', 'Select player skin', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_skin' ) );
+			add_settings_field('OSmedia_color1', 'Icon Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color1' ));
+			add_settings_field('OSmedia_color2', 'Bar Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color2' ));
+			add_settings_field('OSmedia_color3', 'Background Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color3' ));
 
-			//////////////////////////////
-			////////////////////////////// Player Section Basic 
-			add_settings_section('OSmedia_section_player', 'Player Settings', __CLASS__ . '::markup_section_headers', 'OSmedia_settings_player');
-			add_settings_field('OSmedia_width', 'width', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_width' ));
-			add_settings_field('OSmedia_height', 'height', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_height' ));
-
-			// add_settings_field('OSmedia_icon', 'Select Icon set', array( $this, 'markup_fields' ), 'OSmedia-settings-player', 'OSmedia_defaults_player', array( 'label_for' => 'OSmedia_icon' ));
-			add_settings_field('OSmedia_responsive', 'Responsive Video', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_responsive' ));
-			add_settings_field('OSmedia_ratio', 'Responsive aspect ratio', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_ratio' ));
-			// add_settings_field('OSmedia_barpos', 'Control Bar Position (attached)', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_barpos' ));
-			add_settings_field('OSmedia_skin', 'Select player skin', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_skin' ) );
-			add_settings_field('OSmedia_color1', 'Icon Color', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color1' ));
-			add_settings_field('OSmedia_color2', 'Bar Color', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color2' ));
-			add_settings_field('OSmedia_color3', 'Background Color', array( $this, 'markup_fields' ), 'OSmedia_settings_player', 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color3' ));
-
-			////////////////////////////// Player Advanced Section
-			// add_settings_section('OSmedia_section_player_advanced', 'preview HTML5 video player', __CLASS__ . '::markup_section_headers', 'OSmedia_settings_player');
-			
-			////////////////////////////// The settings container - salva i valori dopo averli validati
+			////////////////////////////// The settings container 
 			register_setting(self::OPTS, self::OPTS, array( $this, 'validate_settings' ) );
-			register_setting('OSmedia_settings_player', self::OPTS, array( $this, 'validate_settings' ) );				 
+			// register_setting('OSmedia_settings_player', self::OPTS, array( $this, 'validate_settings_player') );				 
 		}
 				
 
@@ -403,29 +425,30 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 * @return array
 		 */
 		public function validate_settings( $new_settings ) {
+			// to save unset checkbox value..
+			foreach ($this->settings as $k => $v) 
+				if( !isset($new_settings[$k]) ) $new_settings[$k] = '';
 
 			$new_settings = shortcode_atts( $this->settings, $new_settings );
 
-			if ( ! is_string( $new_settings['db-version'] ) || $new_settings['db-version'] == '' ) 
-				$new_settings['db-version'] = OSmedia_base::VERSION;		
+			if ( !isset($new_settings['OSmedia_db-version']) || empty($new_settings['OSmedia_db-version']) )
+				$new_settings['OSmedia_db-version'] = OSmedia_base::VERSION;		
 
 			if ( !isset($new_settings['OSmedia_shortcode']) || $new_settings['OSmedia_shortcode'] == '' )
 				$new_settings['OSmedia_shortcode']	= 'video';
 
+			// if ( strcmp( $new_settings['OSmedia_autoplay'], 'on' ) !== 0 || strcmp( $new_settings['OSmedia_autoplay'], '' ) !== 0) add_notice( 'autoplay must be valid input tytpe', 'error' );
 
-			// if ( strcmp( $new_settings['OSmedia_autoplay'], 'on' ) !== 0) add_notice( 'autoplay must be valid input tytpe', 'error' );
-
+			///////////// player 
 			$new_settings['OSmedia_width'] = absint( $new_settings['OSmedia_width'] );
 			$new_settings['OSmedia_height'] = absint( $new_settings['OSmedia_height'] );
-
-			///////////// player size
-			// if(!preg_match("/^\d+$/", trim($new_settings['OSmedia_width']))) { $new_settings['OSmedia_width'] = ''; }	 
-			// if(!preg_match("/^\d+$/", trim($new_settings['OSmedia_height']))) { $new_settings['OSmedia_height'] = ''; }
+			if(!preg_match("/^\d+$/", trim($new_settings['OSmedia_width']))) { $new_settings['OSmedia_width'] = ''; }	 
+			if(!preg_match("/^\d+$/", trim($new_settings['OSmedia_height']))) { $new_settings['OSmedia_height'] = ''; }
 			///////////// picker	 
 			if(!preg_match("/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/", trim($new_settings['OSmedia_color1']))) { $new_settings['OSmedia_color1'] = '#ccc';	 }	 
 			if(!preg_match("/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/", trim($new_settings['OSmedia_color2']))) { $new_settings['OSmedia_color2'] = '#66A8CC'; }	 
 			if(!preg_match("/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/", trim($new_settings['OSmedia_color3']))) { $new_settings['OSmedia_color3'] = '#000'; }
-	
+			// echo 'validate_settings----->' . var_dump($this->settings); echo $fff; var_dump($new_settings);
 			return $new_settings;
 		}
 

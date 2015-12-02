@@ -14,7 +14,7 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 
 		protected $modules;
 
-		const VERSION    = '2.0';
+		const VERSION    = '2.1';
 		const PREFIX     = 'OSmedia_';
 		const DEBUG_MODE = false;
 
@@ -52,7 +52,8 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		public static function get_settings() {
 			
 			// $settings = shortcode_atts(	self::$default_settings, get_option( self::OPTS, array() )	);
-			
+
+// PROVVISORIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!			
 			$base_opts = OSmedia_Settings::get_default_settings();
 			$opts = get_option( OSmedia_OPTS, array() );
 			// define index for null parameters
@@ -64,8 +65,8 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 					// }
 				// }
 			} 
+// PROVVISORIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			return $settings_complete;
-
 		}
 
 		/**
@@ -75,19 +76,22 @@ if ( ! class_exists( 'OSmedia_base' ) ) {
 		 */
 		public static function load_resources_frontend() {
 
-			if( self::$OSmedia_options ) {
+			if( is_array(self::$OSmedia_options) ) {
 				$options = self::$OSmedia_options;
 				// $player = $options['basic']['OSmedia_player'];
 				if( isset($options['OSmedia_skin']) ) $skin = $options['OSmedia_skin']; else{};
 				if( isset($options['OSmedia_yt_vjs']) ) $yt_vjs = $options['OSmedia_yt_vjs']; else $yt_vjs = '';
-			}else $skin = 'video-js'; $yt_vjs = '';
-			
+			}else{
+				$skin = 'video-js'; 
+				$yt_vjs = '';
+			}			
 
 		    $plugins_url = plugins_url( OSmedia_FOLDER );
-		    print "<link rel='stylesheet' type='text/css' href='".$plugins_url."/player/videojs/".$skin.".css' />\n"; 
+		    print "<link rel='stylesheet' type='text/css' href='".$plugins_url."/player/videojs/video-js.css' />\n";
+		    print "<link rel='stylesheet' type='text/css' href='".$plugins_url."/player/videojs/skin/".$skin.".css' />\n"; 
 		    print "<script src='".$plugins_url."/player/videojs/video.js' type='text/javascript' ></script>\n";
 
-		    if ( $yt_vjs == 'on' || $yt_vjs =='true' ) 
+		    if ( $yt_vjs == 'on' || $yt_vjs == 'true' ) 
         		print "<script src='".$plugins_url."/player/videojs/videojs-youtube.js'></script>\n";
 
         	// wp_register_style( self::PREFIX . 'main_style_frontend', plugins_url( 'css/frontend.css', dirname( __FILE__ ) ) );

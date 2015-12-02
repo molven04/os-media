@@ -9,6 +9,8 @@ $general_config = '<b>general config</b> - not present in single-post settings';
 $default_set = 'default setting - single-post settings overwrite this';
 ?>
 
+<?php // settings_fields( 'prova' ); ?>
+
 <?php ///////////////////////////////////////// Basic Section General Configs //////////////////////////////////////////////////////////////7 ?>
 <?php if ( 'OSmedia_path' == $field['label_for'] ) : ?>
 	<input id="OSmedia_settings[OSmedia_path]" placeholder="path for video folder" size="50" name="OSmedia_settings[OSmedia_path]" value="<?php echo $settings['OSmedia_path'] ?>" /> 
@@ -128,13 +130,16 @@ $default_set = 'default setting - single-post settings overwrite this';
 <?php endif ?>
 
 <?php if ( 'OSmedia_responsive' == $field['label_for'] ) : ?>
-	<input <?php checked( $settings['OSmedia_responsive'], 'on' ); ?> id="OSmedia_responsive" name="OSmedia_settings[OSmedia_responsive]" type="checkbox" />
+	<input <?php checked( $settings['OSmedia_responsive'], 'on' ); ?> id="OSmedia_responsive" value="on" name="OSmedia_settings[OSmedia_responsive]" type="checkbox" />
 	<span class="description"> <?php echo $default_set ?></span>
 <?php endif ?>
 
-<?php if ( 'OSmedia_ratio' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_ratio]" style="width:60px" size="4" name="OSmedia_settings[OSmedia_ratio]" value="<?php echo $settings['OSmedia_ratio'] ?>" /> 
-	<span class="description"> <?php echo $general_config ?> [default 16:9]</span>
+<?php if ( 'OSmedia_ratio' == $field['label_for'] ) : ?>	
+	<select name="OSmedia_settings[OSmedia_ratio]">
+		<option value="vjs-16-9" <?php if($settings['OSmedia_ratio'] == 'vjs-16-9') echo "selected='selected' "; ?>>16:9</option>
+		<option value="vjs-4-3" <?php if($settings['OSmedia_ratio'] == 'vjs-4-3') echo "selected='selected' "; ?>>4:3</option>
+	</select>
+	<span class="description"> <?php echo $general_config ?> responsive aspect ratio</span>
 <?php endif ?>
 <!--
 <?php if ( 'OSmedia_barpos' == $field['label_for'] ) : ?>

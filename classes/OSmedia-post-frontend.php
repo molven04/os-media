@@ -40,13 +40,11 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			global $post;		
 			$post_id = $post->ID;
 
-			// get_option and flat array 
-			// foreach( new RecursiveIteratorIterator (new RecursiveArrayIterator( get_option('OSmedia_settings') )) as $k1=>$v1 )  $options[$k1] = $v1;
 			$out = $options = self::$OSmedia_options;
-			// $out = $options;
+
 			// get_post_meta and filter the params
 			if( get_post_type( $post_id ) == POST_TYPE_SLUG )
-				$meta_values = OSmedia_Post_Admin::postmeta_vars_filter( get_post_meta( $post_id ) );
+				$meta_values = OSmedia_Post_Admin::postmeta_vars_filter( get_post_meta( $post_id ) ); // get postmeta
 			else
 				$meta_values = self::$OSmedia_postmeta;
 
@@ -165,8 +163,8 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			$atts['id_player'] = 'OSmedia_video_id_'.rand(); // different ID are required for multiple videos 
 
 			// FILE controller (HTML5)
-			if ( isset($atts['file']) ) $file = $atts['file']; else $file = '';
-			if ( isset($atts['fileurl']) ) $url = $atts['fileurl']; else $url = '';
+			if ( isset($atts['file']) && $atts['file'] != '' ) $file = $atts['file']; else $file = '';
+			if ( isset($atts['fileurl']) && $atts['fileurl'] != '' ) $url = OSmedia_path_sanitize($atts['fileurl']); else $url = ''; 
 			
 			if( $file != '' && $url == '' ) 	// local file 
 				$filepath = plugins_url( OSmedia_FOLDER ) . "/videostream.php?file="; 
@@ -186,7 +184,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			// TYPE controller
 			// default fallback HTML5 -> Youtube -> Vimeo (se nessuno dei 3 casi viene individuato il rendering dei tag video NON avviene)
 			if( !empty($atts['vimeo']) ) $atts['type'] ='vimeo';
-			if( !empty($atts['youtube']) || $flag_old_yt_shortcode ) $atts['type'] = 'youtube'; // con retrocompatibilità (SC "youtube")
+			if( !empty($atts['youtube']) ) $atts['type'] = 'youtube'; // con retrocompatibilità (SC "youtube")
 			if( !empty($file) || !empty($atts['mp4']) || !empty($atts['webm']) || !empty($atts['ogg'])) $atts['type'] ='html5';
 			// fallback
 			if ( isset($atts['fallback1']) && (($atts['fallback1'] == "true" || $atts['fallback1'] == "on")) AND (!empty($atts['youtube']) || !empty($atts['vimeo'])) )  {
@@ -233,6 +231,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 				$atts['responsive'] = "true"; 
 			else 
 				$atts['responsive'] = "false";
+			if( !isset($atts['ratio']) ) $atts['ratio'] = "vjs-16-9";
 
 			// controlli player
 			if ( isset($atts['preload']) && $atts['preload'] == "true" ) $atts['preload_atts'] = 'preload="true"'; else $atts['preload_atts'] = 'preload="auto"';
@@ -317,7 +316,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 		}
 
 		/**
-		 * Force the Dedicated Template: combina i CPT con un template dedicato [MM2015]
+		 * Force the Dedicated Template: display CPT through dedicated template 
 		 *
 		 * @mvc Model
 		 *
@@ -325,23 +324,26 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 		 * @return string
 		 */
 		public static function include_template_function( $template_path ){
-			global $post;			
+			global $post;	
+
+			// echo '-----------> '.$current_cat = get_query_var('osmedia_tax').' ---->'.get_post_type($post->ID) == POST_TYPE_SLUG;
+			// foreach (get_terms('osmedia_tax') as $tax_term) $tax_cpt[] = $tax_term->name; 
+
 			if( get_post_type($post->ID) == POST_TYPE_SLUG )  {
-			// echo '<br><br><br><br><br><br>------------------'.
-			$layout = wp_get_theme();
-				switch ( $layout ) {
-					// case 'Twenty Thirteen': $layout_slug = POST_TYPE_SLUG . '-twentythirteen.php'; break;
-					case 'Twenty Fourteen': $layout_slug = POST_TYPE_SLUG . '-twentyfourteen.php'; break;
-					case 'Twenty Fifteen': 	$layout_slug = POST_TYPE_SLUG . '-twentyfifteen.php'; break;
-					case 'OS Theme': 	$layout_slug = POST_TYPE_SLUG . '-theme.php'; break;
-					default: $layout_slug = POST_TYPE_SLUG . '.php'; break;
-				}
-				// if ( is_single($post->ID) ) {
-				    // checks if the file exists in the theme first, otherwise serve the file from the plugin
-				    // if ( $theme_file = locate_template( array($layout_slug) ) ) {
-				    //    $template_path = $theme_file;
-				    $template_path = OSmedia_PATH . 'layout/' . $layout_slug;
-				// }
+				$layout = wp_get_theme();
+					switch ( $layout ) {
+						// case 'Twenty Thirteen': $layout_slug = POST_TYPE_SLUG . '-twentythirteen.php'; break;
+						case 'Twenty Fourteen': $layout_slug = POST_TYPE_SLUG . '-twentyfourteen.php'; break;
+						case 'Twenty Fifteen': 	$layout_slug = POST_TYPE_SLUG . '-twentyfifteen.php'; break;
+						case 'OS-media theme': 	$layout_slug = POST_TYPE_SLUG . '-theme.php'; break;
+						default: $layout_slug = POST_TYPE_SLUG . '.php'; break;
+					}
+					if ( is_single($post->ID) ) {
+					    // checks if the file exists in the theme first, otherwise serve the file from the plugin
+					    // if ( $theme_file = locate_template( array($layout_slug) ) ) {
+					    //    $template_path = $theme_file;
+					    $template_path = OSmedia_PATH . 'layout/' . $layout_slug;
+					}
 			}
 			return $template_path;
 		}

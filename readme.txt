@@ -1,4 +1,4 @@
-﻿=== OS media video - HTML5 Featured Video ===
+﻿=== OS-media video - HTML5 Featured Video ===
 Contributors: mariomarino
 Requires at least: 3.4
 Tested up to: 4.3
@@ -53,6 +53,10 @@ http://www.mariomarino.eu/os-media/
 
 `[video file=”demo” fileurl="https://s3-eu-west-1.amazonaws.com/” img="http://.." youtube="KTRVYDwfDyU" width="640" height="360"]`
 
+**Video-js Skin:**
+You can customize you own player skin simply generating css file through this tool: http://codepen.io/heff/pen/EarCt.
+After that upload this file in the plugin folder: player/videojs/skin. The file name should reflect the name of the main class of the css file (not including the extension .css).
+
 **List of all parameters of OS-media video:**
 http://www.mariomarino.eu/wp-content/uploads/2013/10/OSmedia_vars.pdf
 
@@ -76,8 +80,12 @@ This because in the new version in normal post and page, video are displayed onl
 
 == Changelog ==
 
+= 2.1 =
+* Optimized OS-media theme integration.
+* add video-js skin.
+* fixed bug in settings option area.
 
-= Version 2.0 =
+= 2.0 =
 * interely redesigned interface with new Custom Post Type area dedicated to "Featured Video".
 * add new file selector that allow select video from different source server, included Amazon S3.
 * add latest version of video-js player 5.2.1.

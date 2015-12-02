@@ -95,7 +95,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				$post_type_params = self::get_post_type_params();
 				$post_type        = register_post_type( POST_TYPE_SLUG, $post_type_params );
 
-				//nuova colonna CPT (usa la classe di Ohad Raz)
+				// CPT columns (Ohad Raz Class)
 				$post_columns = new CPT_columns( POST_TYPE_SLUG, true);
 				$post_columns->add_column('cb', 
 					array(
@@ -646,7 +646,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				'ping_status' => 'closed'
 			));
 	        if ( $page_id && !is_wp_error( $page_id ) ){
-	            update_post_meta( $page_id, '_wp_page_template', 'featured_video_list.php' );
+	            update_post_meta( $page_id, '_wp_page_template', 'page-templates/featured_video_list.php' );
 	        }
 		}
 

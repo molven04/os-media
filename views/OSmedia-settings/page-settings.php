@@ -23,6 +23,10 @@
 
 	<form id="options_form" method="post" action="options.php">
 
+		<p class="submit">
+			<input id="save_options2" name="save_options" type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' ); ?>" />
+		</p>
+
 		<?php settings_fields('OSmedia_settings'); ?>
 		<?php do_settings_sections('OSmedia_settings'); ?>
 
