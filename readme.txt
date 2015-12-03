@@ -1,18 +1,18 @@
 ﻿=== OS media - HTML5 Featured Video ===
-Contributors: mariomarino
-Requires at least: 3.4
+Contributors: mario marino
+Plugin Name: OS media - HTML5 Featured Video plugin
+Plugin URI: http://www.mariomarino.eu/os-media/
 Tested up to: 4.3
 Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Donate link: 
-Tags: autoplay, amazon, s3, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, seo, shortcode, youtube, youtube embed, youtube player, youtube videos, video, video analytics, video cover, video HTML5, video seo, vimeo, vimeo player, vimeo embed, vimeo videos
+Tags: video, featured, post, page, streaming, custom post type, thumbnail, poster, autoplay, amazon, s3, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, shortcode, youtube, youtube embed, youtube player, youtube videos, video cover, HTML5, vimeo, vimeo player, vimeo embed, vimeo videos
 
 This Plugin is designed to make your Wordpress platform a multimedia station for responsive video content on-demand
 
 == Description ==
 
-OS media video plugin is based on:
+OS-media video plugin is based on:
 
 * <a href=”http://videojs.com/>Video-js</a> video library version 5.2.1
 * The <a href=”https://github.com/iandunn/WordPress-Plugin-Skeleton>skeleton for an object-oriented/MVC WordPress plugin</a> by Ian Dunn.
@@ -31,9 +31,8 @@ And there are 5 possibility to insert video:
 * directly uploading (or selecting) files through Wordpress media uploader (very limited size: depends on the configuration of php and WP) **[dedicated input for each format: mp4, webm, ogg]**
 * from the platform **Youtube & Vimeo**. **[dedicated input]**
 
-**OSmedia Featured video - Custom Post Type:**
-
-For this type of page, the best way to display video is to use a specific template (like **Os-media theme**, specifically designed for this plugin) or you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latest WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. If your theme is not recognized, is loaded by default the file **layout/osmedia_cpt.php**, that you can edit and customize for display your featured video.
+> <strong>OSmedia Featured video - Custom Post Type:</strong><br>
+> For this type of page, the best way to display video is to use a specific template (like **Os-media theme**, specifically designed for this plugin) or you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latest WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. If your theme is not recognized, is loaded by default the file **layout/osmedia_cpt.php**, that you can edit and customize for display your featured video.
 
 **Image poster for video:**
 
