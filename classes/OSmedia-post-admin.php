@@ -97,6 +97,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 
 				// CPT columns (Ohad Raz Class)
 				$post_columns = new CPT_columns( POST_TYPE_SLUG, true);
+				// $post_columns->_column_orderby( (object) array('orderby' => 'date') );
 				$post_columns->add_column('cb', 
 					array(
 				        'label' => __(''),
@@ -124,10 +125,10 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				        'taxonomy' => TAG_SLUG //taxonomy name
 				    )
 				);
-				$post_columns->add_column('tag',
+				$post_columns->add_column('tags',
 					array(
 				        'label'    => __('tag'), 
-				        'type'     => 'tag'
+				        'type'     => 'tags'
 				    )
 				);
 				$post_columns->add_column('comments',
@@ -192,7 +193,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				// 'query_var'            => false,								
 				'menu_icon' 		   => 'dashicons-video-alt3',
 				// elementi supportati admin area CPT (editor=textarea)
-				'supports'             => array( 'cb', 'editor', 'thumbnail', 'title', 'custom_tax', 'custom-fields', 'revisions', 'comments', 'page-attributes')
+				'supports'             => array( 'cb', 'editor', 'thumbnail', 'title', 'custom_tax', 'custom-fields', 'excerpt', 'tags', 'revisions', 'comments', 'page-attributes')
 			);
 
 			return apply_filters( 'OSmedia_post-type-params', $post_type_params );

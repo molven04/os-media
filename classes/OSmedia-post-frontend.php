@@ -335,7 +335,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 						// case 'Twenty Thirteen': $layout_slug = POST_TYPE_SLUG . '-twentythirteen.php'; break;
 						case 'Twenty Fourteen': $layout_slug = POST_TYPE_SLUG . '-twentyfourteen.php'; break;
 						case 'Twenty Fifteen': 	$layout_slug = POST_TYPE_SLUG . '-twentyfifteen.php'; break;
-						case 'OS-media theme': 	$layout_slug = POST_TYPE_SLUG . '-theme.php'; break;
+						case 'OS media': 	$layout_slug = POST_TYPE_SLUG . '-theme.php'; break;
 						default: $layout_slug = POST_TYPE_SLUG . '.php'; break;
 					}
 					if ( is_single($post->ID) ) {
