@@ -19,22 +19,20 @@ OS-media generate an HTML5 video player (Video-js) and allow streaming of mp4/we
 
 **OS-media WP theme:** http://www.mariomarino.eu/os-media-wordpress-theme/
 
-**How insert video:**
+There are two areas where you can insert multimedia content:
 
-There are two areas where you can insert multimedia content:<br>
 * in normal post or page with the classic **shortcodes** added to the post textarea.
 * in specific **Custom Post Type for "Featured Video"**, a dedicated area to make video platforms where we have a single "Featured video" for each page (like WP Featured Images). 
 
-And there are 5 mode to insert video:<br>
+And there are 5 mode to insert video:
+
 * from local WP installation (after upload video files through FTP): you must place the **PATH** of this local video resource (for example: /opt/lampp/htdocs/wp/wp-content/uploads/video) and files list appears in **file selector**.
 * from any file server or WP installation: you must place the URL (http://...) and files list appears in **file selector**.
 * from **Amazon S3** (Simple Storage Server) [files list appears in **file selector**],
 * directly uploading (or selecting) files through WordPress **media uploader** (limited size: depends on the configuration of php and WP) [dedicated input for each format: mp4, webm, ogg]
 * from the platform **Youtube & Vimeo**. [dedicated input]
 
-> <strong>OSmedia Featured video - Custom Post Type:</strong><br>
-> For **OSmedia Featured video (Custom Post Type)**, if you don't use **Os-media theme** you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latest WP theme like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. If your theme is not recognized, is loaded by default the file **layout/osmedia_cpt.php**, that you can edit and customize for display your featured video.
-
+> For **OSmedia Featured video (Custom Post Type)**, if you don't use **Os-media theme** you can insert the function **Osmedia_video()** in your theme. This content are also optimized for latest WP theme > like Twenty Fifteen or Twenty Fourteen, automatically detected by this plugin, which loads the dedicated layout for CPT content. If your theme is not recognized, is loaded by default the file **layout/osmedia_cpt.php**, that you can edit and customize for display your featured video.
 
 For normal post&page you can place **Poster Image for video** URL in shortcode (img="").<br>
 In custom Post Field you can use the WP Featured Image, otherwise the plugin try to load image file from the same directory with the same name and .jpg extension.
