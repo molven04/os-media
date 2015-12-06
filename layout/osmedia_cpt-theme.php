@@ -16,7 +16,7 @@ get_header();
     <?php while ( have_posts() ) : the_post(); ?>
 
         <div id="primary" class="content-area">
-            <div id="content" class="site-content" role="main">
+            <div id="content" class="site-content" style="margin-right: 0;" role="main">
 
                 <?php  echo OSmedia_video(); ?>
 

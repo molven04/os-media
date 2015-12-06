@@ -15,12 +15,12 @@ get_header();
 
     <?php while ( have_posts() ) : the_post(); ?>
 
-        <div id="primary" class="content-area">
-            <div id="content" class="site-content" role="main">
+        <div id="primary" class="content-area" style="padding-top:0; margin-top:0">
+            <div id="content" class="site-content" style="margin-right: 0;" role="main">
 
                 <?php  echo OSmedia_video(); // OSmedia videoplayer ?>
 
-                <div class="entry-content">
+                <div class="entry-content" style="margin: 20px 30px; max-width:1024px">
                     <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
                     <?php the_content(); ?>
                     <?php
