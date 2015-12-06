@@ -14,10 +14,12 @@ This Plugin is designed to make your Wordpress platform a multimedia station for
 
 Wordpress video plugin OS-media generate an HTML5 video player (Video-js) and allow streaming of mp4/webm/ogv video progressively through PHP (HTTP pseudo-streaming).
 > It works with all WP theme, but is designed specifically for **OS-media theme**, that is able to properly handle the layout of Custom Post Type (Featured Videos).
-> DEMO ONLINE: http://openstream.tv/sep/
-> OS-media WP theme: http://www.mariomarino.eu/os-media-wordpress-theme/
 
-**how insert video**
+**DEMO ONLINE:** http://openstream.tv/sep/
+**OS-media WP theme:** http://www.mariomarino.eu/os-media-wordpress-theme/
+
+**How insert video:**
+
 There are two areas where you can insert multimedia content:
 
 * in normal post or page with the classic **shortcodes** added to the post textarea.
