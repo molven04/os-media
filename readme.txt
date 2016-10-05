@@ -2,7 +2,7 @@
 Contributors: mario marino
 Plugin Name: OS media - HTML5 Featured Video plugin
 Plugin URI: http://www.mariomarino.eu/en/os-media-wordpress-video-plugin/
-Tested up to: 4.4
+Tested up to: 4.6.1
 Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -120,3 +120,8 @@ This because in the new version in normal post and page, video are displayed onl
 * Optimized OS-media theme integration.
 * add video-js skin.
 * fixed bug in settings option area.
+
+= 2.2 =
+* dinamically URL select from setting.
+* add manual video-file input for extenal server.
+* fixed bug in file url external server

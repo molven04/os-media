@@ -4,7 +4,7 @@ Plugin Name:       OS media - HTML5 Featured Video plugin
 Plugin URI:        http://mariomarino.eu/
 Description:       Responsive HTML5 video platform for WordPress, based on the latest Video.js player library. 
 Allows you to embed video in your post or page using HTML5 with Flash fallback support for non-HTML5 browsers.
-Version:           2.1
+Version:           2.2
 Author:            Mario Marino
 Author URI:        http://mariomarino.eu/
 Text Domain:       single-post-meta-manager-locale
