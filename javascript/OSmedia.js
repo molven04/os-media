@@ -27,11 +27,29 @@ function OSmediaWrapper( $ ) {
 		 * Registers event handlers
 		 */
 		registerEventHandlers: function () {	
-
+                        
+            // flag input change SELECT/INPUT for video file selection
+            $('#flag_input').change(function() {
+                if($("select#OSmedia_file").is(":visible")){
+                    $('select#OSmedia_file').hide();
+                    $('select#OSmedia_file').prop('disabled', true);
+                    $('input#OSmedia_file').show();
+                    $('input#OSmedia_file').prop('disabled', false);
+                }else{
+                    $('input#OSmedia_file').hide();
+                    $('input#OSmedia_file').prop('disabled', true);
+                    $('select#OSmedia_file').show();
+                    $('select#OSmedia_file').prop('disabled', false);
+                }
+            });
+            // selezione server       
 			$("#OSmedia_file").change(function() {
-				sel_url = $(this).find(':selected').attr('data-url');			
-				$("#OSmedia_fileurl").val(sel_url);
+				if($("select#OSmedia_file").is(":visible")) {
+	                var sel_url = $(this).find(':selected').attr('data-url');			
+	                $("#OSmedia_fileurl").val(sel_url);
+	            }
 			});
+                        
 			$( '#gen_shortcode' ).click( OSmedia.genShortcode );
 			$( '#reset_btn' ).click( OSmedia.resetForm );
 			$( '#upload_button1' ).click( OSmedia.upload1 );
@@ -50,9 +68,16 @@ function OSmediaWrapper( $ ) {
 			var shortcode_name = $('#OSmedia_shortcode_name').val();
 
 			var shortcode = '['+shortcode_name;
+			// selezione file
+			if($("select#OSmedia_file").is(":visible")){
+				name_file = $('select#OSmedia_file').val();
+			}else if($("input#OSmedia_file").is(":visible")){
+				name_file = $('input#OSmedia_file').val();	
+				$("#OSmedia_fileurl").val(2); // input manuale fa riferimento sempre al server 2			
+			}
 			// input items
 			var input_items =  { 
-				file: 		$('#OSmedia_file').val(),
+				file: 		name_file,
 				fileurl: 	$('#OSmedia_fileurl').val(),
 				mp4: 		$('#OSmedia_mp4').val(),
 				webm: 		$('#OSmedia_webm').val(),

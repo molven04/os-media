@@ -293,13 +293,16 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 			if ( isset($OSmedia_s3enable) && $OSmedia_s3enable ) {
 			    $s3 = new S3($OSmedia_s3access, $OSmedia_s3secret);
 			    $s3_array = $s3->getBucket($OSmedia_s3bucket);
-			    if($s3_array) $monitor_server['s3'] = 'ok'; elseif(!$s3_url) $monitor_server['s3'] = 'unset'; else $monitor_server['s3'] = 'error';
+			    if($s3_array) $monitor_server['s3'] = 'ok'; 
+			    elseif(!$s3_url) $monitor_server['s3'] = 'unset'; 
+			    else $monitor_server['s3'] = 'error';
+			    
 			    if( $s3_array ) {
 			    // array forma [file]=>path_file
 				    foreach ($s3_array as $kk => $vv){
 				    	$file = str_replace( $OSmedia_s3dir, '', $vv['name']); // toglie la directory s3 dal nome del file
 				    	// $file = preg_replace( '/\.[^.]+$/', '', $file ); // SANITIZE
-				    	if( $file ) $s3_list[$file] = $s3_url;
+				    	if( $file ) $s3_list[$file] = 3;
 				    }
 				    
 				}
@@ -316,7 +319,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 						foreach ($cdir_path as $key => $value) {
 							// $value = preg_replace( '/\.[^.]+$/', '', $value );
 							// if ( $value != '.' && $value != '..' ) 
-								$path_list[$value] = ''; // $dir /*. $value*/;
+								$path_list[$value] = 1; // $dir /*. $value*/;
 						}
 						$monitor_server['path'] = 'ok';
 					}
@@ -339,10 +342,9 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 					fclose($fp_load);
 					preg_match_all("/(a href\=\")([^\?\"]*)(\")/i", $content, $res);
 					// array forma [file]=>path_file senza ext
-					// DA VERIFICARE !!!!!!
 					foreach ($res[2] as $val) {
-						// $value = preg_replace( '/\.[^.]+$/', '', $value );
-						if ( $val != '.' && $val != '..' ) $url_list[$val] = $url /*. $val*/;
+						$val = pathinfo($val)['basename'];
+						if ( $val != '.' && $val != '..' ) $url_list[$val] = 2 /*. $val*/;
 					}
 					$monitor_server['url'] = 'ok';
 				}else{
@@ -354,8 +356,10 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 
 			// unisce i 3 risultati
 			$file_list = $s3_list;
-			if( !empty($path_list) ) foreach( $path_list as $k2 => $v2 ) $file_list[$k2] = $v2;
-			if( !empty($url_list) ) foreach( $url_list as $k3 => $v3 ) $file_list[$k3] = $v3;			
+			if( !empty($path_list) ) 
+				foreach( $path_list as $k2 => $v2 ) $file_list[$k2] = $v2;
+			if( !empty($url_list) ) 
+				foreach( $url_list as $k3 => $v3 ) $file_list[$k3] = $v3;			
 
 			// SANITIZE
 			// filtra i risultati togliendo i file di estensione non richiesta, poi le estensioni e poi gli elementi con lo stesso valore: 
@@ -391,11 +395,12 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 			}
 
 			$result['monitor_server'] = $monitor_server;
-
-			// echo 'ARRAY_S3: <pre>'; print_r($monitor_server); echo '</pre>'; // MONITOR
-			// echo 'ARRAY_PATH: <pre>'; print_r($path_list); echo '</pre>'; // MONITOR
-			// echo 'ARRAY_URL: <pre>'; print_r($url_list); echo '</pre>'; // MONITOR
-			// echo 'RESULT: <pre>'; print_r($result); echo '</pre>'; // MONITOR	
+			// MONITOR
+			// echo 'OPTIONS: <pre>'; print_r($options); echo '</pre>'; 
+			// echo 'ARRAY_S3: <pre>'; print_r($monitor_server); echo '</pre>';
+			// echo 'ARRAY_PATH: <pre>'; print_r($path_list); echo '</pre>'; 
+			// echo 'ARRAY_URL: <pre>'; print_r($url_list); echo '</pre>'; 
+			// echo 'RESULT: <pre>'; print_r($result); echo '</pre>'; 	
 
 			return $result; 
 		}
@@ -434,7 +439,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				foreach ( $options as $k => $v ) { 
 					if ( array_key_exists($k, $meta_values ) )
 						$out[$k] = $meta_values[$k]; 
-					// else	$out[$k] = $v;
+					else	$out[$k] = $v;
 				}
 				// carica i POSTMETA di questo plugin, aggiungo i valori con chiavi che NON ci sono già in $out..
 				foreach ( self::$OSmedia_postmeta as $k_meta => $v_meta ) {						
@@ -448,7 +453,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				}
 			}			
 
-			// echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>'; // MONITOR
+			// echo 'post_id->'.$post_id.'<br>DATA_MODEL: <pre>'; print_r($out);  echo '</pre>'; // MONITOR
 			return $out;
 		}
 
@@ -515,7 +520,7 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 
 			///////////////// MONITOR
 			// foreach ($variables as $mon_k => $mon_atts) if( $mon_atts !='' ) $mon[$mon_k] = $mon_atts; // nasconde valori nulli
-			// echo '<pre style="font-size:12px"> --->post_type: '.get_post_type($post->ID).' -->GET_POSTMETA: '; var_dump($variables); echo '</pre>'; 
+			// echo '<pre style="font-size:12px"> --->post_type: '.get_post_type($post->ID).' -->GET_POSTMETA: '; print_r($variables); echo '</pre>'; 
 			// echo '<br>--------- max upload file size ----->'.ini_get('post_max_size');
 			/////////////////////////
 

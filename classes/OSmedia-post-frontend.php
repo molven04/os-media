@@ -164,14 +164,37 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 
 			// FILE controller (HTML5)
 			if ( isset($atts['file']) && $atts['file'] != '' ) $file = $atts['file']; else $file = '';
-			if ( isset($atts['fileurl']) && $atts['fileurl'] != '' ) $url = OSmedia_path_sanitize($atts['fileurl']); else $url = ''; 
-			
-			if( $file != '' && $url == '' ) 	// local file 
-				$filepath = plugins_url( OSmedia_FOLDER ) . "/videostream.php?file="; 
-			elseif( $file != '' && $url != '' ) // remote file
-				$filepath = $url; 
-			else 								// no filepath (direct url)
-				$filepath = ''; 
+
+			switch ($atts['fileurl']) {
+			    case 1:
+			        if(isset($options['OSmedia_path']) && $options['OSmedia_path'] != ''){
+                        $url_img = OSmedia_path_sanitize($options['OSmedia_path']);
+                        $filepath = plugins_url( OSmedia_FOLDER ) . "/videostream.php?file=";
+                    }else{
+                        $filepath = $url_img = OSmedia_path_sanitize($options['OSmedia_url']);
+                    }
+			        break;
+			    case 2:
+                    if(isset($options['OSmedia_url']) && $options['OSmedia_url'] != ''){
+                    	$filepath = $url_img = OSmedia_path_sanitize($options['OSmedia_url']);
+                    }else{
+                        $url_img = OSmedia_path_sanitize($options['OSmedia_path']);
+                        $filepath = plugins_url( OSmedia_FOLDER ) . "/videostream.php?file="; 
+                    }
+			        break;
+			    case 3:
+			    	$s3_url = $url_img = $options['OSmedia_s3server'] . $options['OSmedia_s3bucket'] . '/' . $options['OSmedia_s3dir'];
+			        $filepath = $url_img = OSmedia_path_sanitize($s3_url);
+			        break;
+			    default: 
+                    // RETROCOMPATIBILITA'
+                    if( substr($atts['fileurl'], 0, 7) == 'http://' || substr($atts['fileurl'], 0, 8) == 'https://'){ // caso 2 e 3
+                        $filepath = $url_img = OSmedia_path_sanitize($atts['fileurl']);
+                    }elseif( !isset($atts['fileurl']) || $atts['fileurl'] == '' ){ // caso 1
+                        $filepath = plugins_url( OSmedia_FOLDER ) . "/videostream.php?file="; 
+                        $url_img = OSmedia_path_sanitize($options['OSmedia_path']);
+                	}                                        
+			}
 
 			if( $file && $filepath ) {
 				$atts['mp4'] 	= $filepath . $file . ".mp4";
@@ -202,6 +225,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			// poster image controller
 			// CPT
 			if( $cpt_flag ){
+				// if(isset($url_img)) $filepath = $url_img;
 				// if ( $file && $filepath && $file != '' && $filepath != '' && @getimagesize($filepath . $file . ".jpg") ) $atts['img'] = $filepath . $file. ".jpg";
 				$post_thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
 				if( isset($post_thumbnail[0]) ) $atts['img'] = $post_thumbnail[0]; 
@@ -248,6 +272,8 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 			// flag CPT
 			$atts['flag_cpt'] = $cpt_flag;
 
+			// echo '<br><br><br>'.$filepath;
+			// echo '<pre> ATTS:'; var_dump($atts); echo '</pre>';
 			// return apply_filters( 'OSmedia_validate_shortcode_attributes', $atts ); 
 			return $atts;
 		}
