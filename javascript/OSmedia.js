@@ -41,6 +41,8 @@ function OSmediaWrapper( $ ) {
                             $('input#OSmedia_file').prop('disabled', true);
                             $('select#OSmedia_file').show();
                             $('select#OSmedia_file').prop('disabled', false);
+                            $("select#OSmedia_file option:first").attr('selected','selected'); // va al primo option della select
+                            $("#OSmedia_fileurl").val('');
                         }
                     });
                     // selezione server       
