@@ -1,9 +1,13 @@
 <?php 
+$flag_input = false;
+$server_no = 1;
 extract($variables);
-
-if( !isset($OSmedia_fileurl) || $OSmedia_fileurl == '') $server_no = 1;
-elseif( substr( $OSmedia_fileurl, 0, 7 ) === "http://" ) $server_no = 2;
-elseif( substr( $OSmedia_fileurl, 0, 10 ) === "https://s3" ) $server_no = 3;
+// input/select
+if( empty($video_list) || (!array_key_exists($OSmedia_file, $video_list) && $OSmedia_file != '') ) 
+    $flag_input = true;   
+// server monitor (retrocomp.)
+if( isset($OSmedia_fileurl) && $OSmedia_fileurl != '' ) 
+    $server_no = $OSmedia_fileurl; 
 ?>
 
 <ul class="server-monitor-list">
@@ -19,42 +23,22 @@ elseif( substr( $OSmedia_fileurl, 0, 10 ) === "https://s3" ) $server_no = 3;
     <th>on-fly local upload (MAX upload file-size: <?php echo ini_get('post_max_size') ?>)</th>
 <tr>
     <td>
-
-    <?php if ( (!empty($video_list) && array_key_exists($OSmedia_file, $video_list)) || $OSmedia_file == '' ) : ?>
-        
+ 
         <p class="metacheck">	
-            <input id="flag_input" type="checkbox" />
-            <label for="OSmedia_yt_related"><?php _e('manual name-file input (only for server 2)', 'OSmedia_player') ?></label>
+            <input id="flag_input" type="checkbox" <?php if($flag_input) echo ' checked'; ?>>
+            <label for="OSmedia_yt_related"><?php _e('manual name-file input (server 2)', 'OSmedia_player') ?></label>
         </p>
 
-        <select id="OSmedia_file" name="OSmedia_file">
-            <option class="default_opt" value="" <?php if( !array_key_exists($OSmedia_file, $video_list)) echo " selected='selected' "; ?>> </option>
+        <select id="OSmedia_file" name="OSmedia_file" <?php if($flag_input) echo ' style="display:none" '; ?>>
+            <option class="default_opt" value="" <?php if( !array_key_exists($OSmedia_file, $video_list)) echo " selected='selected' "; ?>>--sel. video--</option>
             <?php foreach ($video_list as $key => $value) : ?>
 		<option value="<?php echo $key ?>" <?php if( $OSmedia_file == $key ) echo " selected='selected' "; ?> data-url="<?php echo $value ?>"><?php echo $key ?></option>
             <?php endforeach ?>
         </select>
             
-        <input id="OSmedia_file" name="OSmedia_file" style="display:none" type="text" size="15" placeholder="file without ext" value="<?php echo $OSmedia_file; ?>" />
+        <input id="OSmedia_file" name="OSmedia_file" type="text" size="15" placeholder="file with no ext" value="<?php echo $OSmedia_file; ?>" <?php if(!$flag_input) echo ' style="display:none" disabled'; ?>>
 
-    <?php elseif( (!empty($video_list) && !in_array($OSmedia_file, $video_list)) || empty($video_list) ) : ?>
-        
-        <p class="metacheck">	
-            <input id="flag_input" type="checkbox" checked="on" />
-            <label for="OSmedia_yt_related"><?php _e('manual name-file input (only for server 2)', 'OSmedia_player') ?></label>
-        </p>
-        
-        <select id="OSmedia_file" name="OSmedia_file" style="display:none">
-            <option class="default_opt" value="" <?php if( !array_key_exists($OSmedia_file, $video_list)) echo " selected='selected' "; ?>> </option>
-            <?php foreach ($video_list as $key => $value) : ?>
-		<option value="<?php echo $key ?>" <?php if( $OSmedia_file == $key ) echo " selected='selected' "; ?> data-url="<?php echo $value ?>"><?php echo $key ?></option>
-            <?php endforeach ?>
-        </select>
-            
-        <input id="OSmedia_file" name="OSmedia_file" type="text" size="15" placeholder="file without ext" value="<?php echo $OSmedia_file; ?>" />
-            
-    <?php endif ?>
-
-	<laber for="OSmedia_file"><?php _e( 'file', 'OSmedia_player' ) ?> <?php // if( isset($server_no) ) echo "(server {$server_no})" ?></label>
+	<laber for="OSmedia_file"><?php _e( 'file', 'OSmedia_player' ) ?> <?php // echo "(server {$server_no})" ?></label>
 
 	<input id="OSmedia_fileurl" name="OSmedia_fileurl" type="hidden" value="<?php if( isset($OSmedia_fileurl) ) echo $OSmedia_fileurl ?>" />
 	<input id="OSmedia_shortcode_name" name="OSmedia_shortcode_name" type="hidden" value="<?php if( isset($OSmedia_shortcode) ) echo $OSmedia_shortcode ?>" />

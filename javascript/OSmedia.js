@@ -35,7 +35,8 @@ function OSmediaWrapper( $ ) {
                             $('select#OSmedia_file').prop('disabled', true);
                             $('input#OSmedia_file').show();
                             $('input#OSmedia_file').prop('disabled', false);
-                            $("#OSmedia_fileurl").val(2); // input manuale fa riferimento sempre al server 2
+                            $('input#OSmedia_file').val(''); 	// cancella nome file dall'input
+                            $("#OSmedia_fileurl").val(2); 		// input manuale fa riferimento sempre al server 2
                         }else{
                             $('input#OSmedia_file').hide();
                             $('input#OSmedia_file').prop('disabled', true);
@@ -48,7 +49,7 @@ function OSmediaWrapper( $ ) {
                     // selezione server       
                     $("select#OSmedia_file").change(function() {
                         if($("select#OSmedia_file").is(":visible")) {
-                            var sel_url = $(this).find(':selected').attr('data-url');			
+                            var sel_url = $(this).find(':selected').attr('data-url');	
                             $("#OSmedia_fileurl").val(sel_url);
                         }
                     });
