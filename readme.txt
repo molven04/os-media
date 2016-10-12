@@ -78,6 +78,11 @@ This because in the new version in normal post and page, video are displayed onl
 
 == Changelog ==
 
+= 2.3 =
+* new monitor interface for video sources in settings.
+* add colours in select files sources 
+* fixed bug in new CPT post setting
+
 = 2.2 =
 * dinamically URL select from setting.
 * add manual video-file input for extenal server.
@@ -125,3 +130,8 @@ This because in the new version in normal post and page, video are displayed onl
 * dinamically URL select from setting.
 * add manual video-file input for extenal server.
 * fixed bug in file url external server
+
+= 2.3 =
+* new monitor interface for video sources in settings.
+* add colours in select files sources 
+* fixed bug in new CPT post setting
