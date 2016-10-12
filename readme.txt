@@ -3,7 +3,7 @@ Contributors: mario marino
 Plugin Name: OS media - HTML5 Featured Video plugin
 Plugin URI: http://www.mariomarino.eu/en/os-media-wordpress-video-plugin/
 Tested up to: 4.6.1
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: video, featured, post, page, streaming, custom post type, thumbnail, poster, autoplay, amazon, s3, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, shortcode, youtube, youtube embed, youtube player, youtube videos, video cover, HTML5, vimeo, vimeo player, vimeo embed, vimeo videos

@@ -60,7 +60,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 					$out[$k_meta] = $v_meta;
 			}
 
-			// echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';var_dump($out);  echo '</pre>';
+			// echo '<pre> DATA_MODEL: post_id->'.$post_id.'  ';print_r($out);  echo '</pre>';
 			return $out;
 		}
 
@@ -154,7 +154,7 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 
 			// add SHORTCODE values (in CPT do nothing)
 			$atts = shortcode_atts( $base_atts, $shortcode ); 
-
+                        // echo '<pre> BASE_ATTS:'; var_dump($atts); echo '</pre>';
 			// uniform boolean values
 			foreach ($atts as $kk => $vv)
 				if ($atts[$kk] == "true" || $atts[$kk] == "on" || $atts[$kk] == "yes" ) 
@@ -164,6 +164,9 @@ if ( ! class_exists( 'OSmedia_Post_Frontend' ) ) {
 
 			// FILE controller (HTML5)
 			if ( isset($atts['file']) && $atts['file'] != '' ) $file = $atts['file']; else $file = '';
+                        
+                        // da sistemare (questo item dovrebbe sempre essere settato in fase di creazione del post)
+                        if(!isset($atts['fileurl'])) $atts['fileurl'] = '';
 
 			switch ($atts['fileurl']) {
 			    case 1:

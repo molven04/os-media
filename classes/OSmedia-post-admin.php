@@ -286,33 +286,36 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 				// echo '<pre>'; print_r( stream_get_meta_data($fp) ); echo '</pre>'; fclose($fp);
 			}
 */
-			$s3_url = $OSmedia_s3server . $OSmedia_s3bucket . '/' . $OSmedia_s3dir;
+			if($OSmedia_s3server && $OSmedia_s3bucket) 
+                            $s3_url = $OSmedia_s3server . $OSmedia_s3bucket . '/' . $OSmedia_s3dir;
+                        else 
+                            $s3_url = '';
 			// $result = array();
 
 			/////////////////////////////////// S3 -> cURL
-			if ( isset($OSmedia_s3enable) && $OSmedia_s3enable ) {
-			    $s3 = new S3($OSmedia_s3access, $OSmedia_s3secret);
-			    $s3_array = $s3->getBucket($OSmedia_s3bucket);
-			    if($s3_array) $monitor_server['s3'] = 'ok'; 
-			    elseif(!$s3_url) $monitor_server['s3'] = 'unset'; 
-			    else $monitor_server['s3'] = 'error';
-			    
-			    if( $s3_array ) {
-			    // array forma [file]=>path_file
-				    foreach ($s3_array as $kk => $vv){
+			if ( isset($OSmedia_s3enable) && $OSmedia_s3enable && $s3_url ) {
+                            $s3 = new S3($OSmedia_s3access, $OSmedia_s3secret);
+                            $s3_array = $s3->getBucket($OSmedia_s3bucket);
+			    if( isset($s3_array) && $s3_array!='' ) {
+				foreach ($s3_array as $kk => $vv){
 				    	$file = str_replace( $OSmedia_s3dir, '', $vv['name']); // toglie la directory s3 dal nome del file
 				    	// $file = preg_replace( '/\.[^.]+$/', '', $file ); // SANITIZE
 				    	if( $file ) $s3_list[$file] = 3;
-				    }
-				    
-				}
+				}				    
+                                $monitor_server['s3'] = 'ok'; 
+                                $monitor_server['s3-color'] = 'green';
+                            }else{
+                                $monitor_server['s3'] = 'error';
+                                $monitor_server['s3-color'] = 'red';
+                            }
 			}else{
 				$monitor_server['s3'] = 'unset';
+                                $monitor_server['s3-color'] = 'orange';
 			}
 
 			///////////////////////////////////// PATH videofile -> scandir
 			if( $dir ){
-				if(	file_exists($dir) ){
+				if( file_exists($dir) ){
 					$cdir_path = scandir($dir);
 					// array forma [file]=>path_file
 					if( is_array($cdir_path) ) {
@@ -322,17 +325,21 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 								$path_list[$value] = 1; // $dir /*. $value*/;
 						}
 						$monitor_server['path'] = 'ok';
+                                                $monitor_server['path-color'] = 'green';
 					}
 				}else{
 					$monitor_server['path'] = 'error';
+                                        $monitor_server['path-color'] = 'red';
 				}		   	
 			}else{
 				$monitor_server['path'] = 'unset';
+                                $monitor_server['path-color'] = 'orange';
 			}
 
 			///////////////////////////// URL (media server) -> fopen
 		   	if ( $url ) { // input URL
-		   		if( OSmedia_isValidUrl($url) ){
+		   		$url_test = OSmedia_isValidUrl($url);
+		   		if( $url_test == 'ok' ){
 			   		$res = array();
 			   		$content = '';
 				   	$fp_load = fopen( $url, "rb");
@@ -347,11 +354,20 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 						if ( $val != '.' && $val != '..' ) $url_list[$val] = 2 /*. $val*/;
 					}
 					$monitor_server['url'] = 'ok';
+					$monitor_server['url-color'] = 'green';
+				}elseif( $url_test == 403 ){
+					$monitor_server['url'] = '403 Forbidden (you must use manual input)';
+					$monitor_server['url-color'] = 'orange';
+				}elseif( $url_test == 404 ){
+					$monitor_server['url'] = '404 Not Found';
+					$monitor_server['url-color'] = 'red';
 				}else{
 					$monitor_server['url'] = 'error';
+					$monitor_server['url-color'] = 'red';
 				}
-			}else {
+			}else{
 				$monitor_server['url'] = 'unset';
+				$monitor_server['url-color'] = 'orange';
 			}
 
 			// unisce i 3 risultati
@@ -423,6 +439,11 @@ if ( ! class_exists( 'OSmedia_Post_Admin' ) ) {
 		
 			// se il post è nuovo..
 			if ( self::is_edit_page('new') ) { 
+				foreach ( $options as $k => $v ) { 
+					if ( array_key_exists($k, $meta_values ) )
+						$out[$k] = $meta_values[$k]; 
+					else	$out[$k] = $v;
+				}
 				// ..per ogni parametro pesca i valori..
 				foreach ( self::$OSmedia_postmeta as $k => $v ) { 
 					// ..in prima istanza dalle option (se esite la chiave),

@@ -24,21 +24,25 @@ endif;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function OSmedia_isValidUrl($url){
+    $out = [];
         // first do some quick sanity checks:
         if(!$url || !is_string($url)){
-            return false;
+            return 'error';
         }
         // quick check url is roughly a valid http request: ( http://blah/... ) 
         if( ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url) ){
-            return false;
+            return 'error';
         }
         // the next bit could be slow:
         if(getHttpResponseCode_using_curl($url) != 200){
-//      if(getHttpResponseCode_using_getheaders($url) != 200){  // use this one if you cant use curl
-            return false;
+        // if(getHttpResponseCode_using_getheaders($url) != 200){  // use this one if you cant use curl
+            $out = getHttpResponseCode_using_curl($url);
+        }else{
+            // all good!
+            $out = 'ok';
         }
-        // all good!
-        return true;
+    
+    return $out;
 }
 
 function getHttpResponseCode_using_curl($url, $followredirects = true){

@@ -8,18 +8,27 @@ if( empty($video_list) || (!array_key_exists($OSmedia_file, $video_list) && $OSm
 // server monitor (retrocomp.)
 if( isset($OSmedia_fileurl) && $OSmedia_fileurl != '' ) 
     $server_no = $OSmedia_fileurl; 
+
+$array_color = array(
+	1 => 'green',
+	2 => 'blue',
+	3 => 'orange',
+);
+
 ?>
 
-<ul class="server-monitor-list">
-	<li><b>FILE SERVER:</b></li>
-	<li class="<?php echo $monitor_server['path'] ?>"><b>1</b> - local (path): <span><?php echo $monitor_server['path'] ?></span></li>
-	<li class="<?php echo $monitor_server['url'] ?>"><b>2</b> - remote (url): <span><?php echo $monitor_server['url'] ?></span></li>
-	<li class="<?php echo $monitor_server['s3'] ?>"><b>3</b> - Amazon S3: <span><?php echo $monitor_server['s3'] ?></span></li>
-</ul>
+<table id="monitor_table">
+    <tr><td colspan="6">SOURCE LIST:</td></tr>
+    <tr>        
+        <td><div class="b_green"></div></td><td>1. local path </td>
+        <td><div class="b_blue"></div></td><td>2. remote URL </td>
+        <td><div class="b_orange"></div></td><td>3. Amazon S3 </td>
+    </tr>
+</table>
 
 <table class="metabox_table">
 <thead></thead>
-    <th>video identification</th>
+    <th>video source</th>
     <th>on-fly local upload (MAX upload file-size: <?php echo ini_get('post_max_size') ?>)</th>
 <tr>
     <td>
@@ -29,10 +38,10 @@ if( isset($OSmedia_fileurl) && $OSmedia_fileurl != '' )
             <label for="OSmedia_yt_related"><?php _e('manual name-file input (server 2)', 'OSmedia_player') ?></label>
         </p>
 
-        <select id="OSmedia_file" name="OSmedia_file" <?php if($flag_input) echo ' style="display:none" '; ?>>
+        <select id="OSmedia_file" class="<?php if(array_key_exists($OSmedia_fileurl, $array_color)) echo $array_color[$OSmedia_fileurl] ?>" name="OSmedia_file" <?php if($flag_input) echo ' style="display:none"'; ?>>
             <option class="default_opt" value="" <?php if( !array_key_exists($OSmedia_file, $video_list)) echo " selected='selected' "; ?>>--sel. video--</option>
             <?php foreach ($video_list as $key => $value) : ?>
-		<option value="<?php echo $key ?>" <?php if( $OSmedia_file == $key ) echo " selected='selected' "; ?> data-url="<?php echo $value ?>"><?php echo $key ?></option>
+			<option class="opt_element <?php if(array_key_exists($value, $array_color)) echo $array_color[$value] ?>" value="<?php echo $key ?>" <?php if( $OSmedia_file == $key ) echo " selected='selected' "; ?> data-url="<?php echo $value ?>"><?php echo $key ?></option>
             <?php endforeach ?>
         </select>
             
@@ -150,6 +159,6 @@ if( isset($OSmedia_fileurl) && $OSmedia_fileurl != '' )
 <?php if ( $post_type != 'osmedia_cpt' ) : ?>
 	<input  id="gen_shortcode" class="button-secondary" value="<?php _e('insert shortcode', 'OSmedia_player') ?>" name="shortcode_btn" />
 <?php endif ?>
-<input id="reset_btn" class="button-secondary reset_btn" value="<?php _e('reset value', 'OSmedia_player') ?>" name="reset_btn"/>
+<input id="reset_btn" class="button-secondary reset_btn" value="<?php _e('reset values', 'OSmedia_player') ?>" name="reset_btn"/>
 </div>
 

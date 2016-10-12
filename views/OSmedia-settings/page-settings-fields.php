@@ -1,28 +1,54 @@
 <?php
-// Openstream.it: OSmedia Wordpress Plugin -> HTML field list for admin area
-
+// Openstream.it: OSmedia Wordpress Plugin -> HTML field list for admin area 
 /*
  * Basic Section General Configs
 */
-
 $general_config = '<b>general config</b> - not present in single-post settings';
 $default_set = 'default setting - single-post settings overwrite this';
 ?>
 
-<?php // settings_fields( 'prova' ); ?>
-
 <?php ///////////////////////////////////////// Basic Section General Configs //////////////////////////////////////////////////////////////7 ?>
 <?php if ( 'OSmedia_path' == $field['label_for'] ) : ?>
 	<input id="OSmedia_settings[OSmedia_path]" placeholder="path for video folder" size="50" name="OSmedia_settings[OSmedia_path]" value="<?php echo $settings['OSmedia_path'] ?>" /> 
-	<span class="description"> [recommended] default: <b style="background-color: white">"<?php echo ABSPATH. 'wp-content/uploads' ?>"</b></span>
+	<p class="description"> default: <b>"<?php echo realpath(ABSPATH. 'wp-content/uploads'); ?>"</b></p>
 <?php endif ?>
 
 <?php if ( 'OSmedia_url' == $field['label_for'] ) : ?>
 	<input id="OSmedia_settings[OSmedia_url]" placeholder="media server URL" size="50" name="OSmedia_settings[OSmedia_url]" value="<?php echo $settings['OSmedia_url'] ?>" /> 
-	<span class="description"> example: "http://example.com/wp-content/uploads/video/"</span>
+	<p class="description"> example: "http://example.com/wp-content/uploads/video/"</p>			
+<?php endif ?>
+        
+<?php ///////////////////////////////////////// Section S3 /////////////////////////////////////////////////////////////// ?>
+<?php if ( 'OSmedia_s3enable' == $field['label_for'] ) : ?>
+	<input <?php checked( $settings['OSmedia_s3enable'], 'on' ); ?> id="OSmedia_s3enable" name="OSmedia_settings[OSmedia_s3enable]" type="checkbox" />
+<?php endif; ?>
+<?php if ( 'OSmedia_s3server' == $field['label_for'] ) : ?>
+	<input id="OSmedia_settings[OSmedia_s3server]" size="50" name="OSmedia_settings[OSmedia_s3server]" value="<?php echo $settings['OSmedia_s3server'] ?>" /> 
+	<span class="description"></span>
+<?php endif ?>
+<?php if ( 'OSmedia_s3access' == $field['label_for'] ) : ?>
+	<input id="OSmedia_settings[OSmedia_s3access]" size="50" name="OSmedia_settings[OSmedia_s3access]" value="<?php echo $settings['OSmedia_s3access'] ?>" /> 
+	<span class="description"></span>
+<?php endif ?>
+<?php if ( 'OSmedia_s3secret' == $field['label_for'] ) : ?>
+	<input id="OSmedia_settings[OSmedia_s3secret]" size="50" name="OSmedia_settings[OSmedia_s3secret]" value="<?php echo $settings['OSmedia_s3secret'] ?>" /> 
+	<span class="description"></span>
+<?php endif ?>
+<?php if ( 'OSmedia_s3bucket' == $field['label_for'] ) : ?>
+	<input id="OSmedia_settings[OSmedia_s3bucket]" size="50" name="OSmedia_settings[OSmedia_s3bucket]" value="<?php echo $settings['OSmedia_s3bucket'] ?>" /> 
+	<span class="description"></span>
+<?php endif ?>
+<?php if ( 'OSmedia_s3dir' == $field['label_for'] ) : ?>
+	<input id="OSmedia_settings[OSmedia_s3dir]" size="50" name="OSmedia_settings[OSmedia_s3dir]" value="<?php echo $settings['OSmedia_s3dir'] ?>" /> 
+	<span class="description"></span>
+        <p class="submit">
+            <input id="save_options2" name="save_options" type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' )?>" />
+	</p>
 <?php endif ?>
 
+<?php ///////////////////////////////////////// BASE Section /////////////////////////////////////////////////////////////// ?>
 <?php if ( 'OSmedia_shortcode' == $field['label_for'] ) : ?>
+        <br />
 	<input id="OSmedia_settings[OSmedia_shortcode]" name="OSmedia_settings[OSmedia_shortcode]" size="10" placeholder="video shortcode" value="<?php echo $settings['OSmedia_shortcode'] ?>" /> 
 <?php endif ?>
 
@@ -87,32 +113,6 @@ $default_set = 'default setting - single-post settings overwrite this';
 	<input <?php checked( $settings['OSmedia_yt_related'], 'on' ); ?> id="OSmedia_yt_related" name="OSmedia_settings[OSmedia_yt_related]" type="checkbox" />
 	<span class="description"> <?php echo $default_set ?></span>
 <?php endif; ?>
-
-<?php ///////////////////////////////////////// Advanced Section S3 /////////////////////////////////////////////////////////////// ?>
-<?php if ( 'OSmedia_s3enable' == $field['label_for'] ) : ?>
-	<input <?php checked( $settings['OSmedia_s3enable'], 'on' ); ?> id="OSmedia_s3enable" name="OSmedia_settings[OSmedia_s3enable]" type="checkbox" />
-<?php endif; ?>
-<?php if ( 'OSmedia_s3server' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_s3server]" size="50" name="OSmedia_settings[OSmedia_s3server]" value="<?php echo $settings['OSmedia_s3server'] ?>" /> 
-	<span class="description"></span>
-<?php endif ?>
-<?php if ( 'OSmedia_s3access' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_s3access]" size="50" name="OSmedia_settings[OSmedia_s3access]" value="<?php echo $settings['OSmedia_s3access'] ?>" /> 
-	<span class="description"></span>
-<?php endif ?>
-<?php if ( 'OSmedia_s3secret' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_s3secret]" size="50" name="OSmedia_settings[OSmedia_s3secret]" value="<?php echo $settings['OSmedia_s3secret'] ?>" /> 
-	<span class="description"></span>
-<?php endif ?>
-<?php if ( 'OSmedia_s3bucket' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_s3bucket]" size="50" name="OSmedia_settings[OSmedia_s3bucket]" value="<?php echo $settings['OSmedia_s3bucket'] ?>" /> 
-	<span class="description"><b></b></span>
-<?php endif ?>
-<?php if ( 'OSmedia_s3dir' == $field['label_for'] ) : ?>
-	<input id="OSmedia_settings[OSmedia_s3dir]" size="50" name="OSmedia_settings[OSmedia_s3dir]" value="<?php echo $settings['OSmedia_s3dir'] ?>" /> 
-	<span class="description"></span>
-<?php endif ?>
-
 
 <?php 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

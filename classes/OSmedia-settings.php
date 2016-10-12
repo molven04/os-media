@@ -200,7 +200,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public static function get_default_settings() {
 			$opts = array( 
-				'OSmedia_path' 		=> ABSPATH . 'wp-content/uploads/',
+				'OSmedia_path' 		=> realpath(ABSPATH . 'wp-content/uploads/'),
 				'OSmedia_url' 		=> '' ,
 				'OSmedia_autoplay'	=> 'off' ,
 				'OSmedia_loop'		=> 'off' ,				
@@ -230,7 +230,7 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 				'OSmedia_responsive'=> 'on' ,
 				'OSmedia_ratio'  	=> 'vjs-16-9' ,
 				'OSmedia_color1'	=> '#fff' ,
-			   	'OSmedia_color2' 	=> '#fff' ,
+			   	'OSmedia_color2' 	=> '#ff0000' ,
 			   	'OSmedia_color3' 	=> '#2b333f',
 			   	'OSmedia_db-version'=> OSmedia_base::VERSION
 			);
@@ -304,11 +304,76 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 * @mvc Controller
 		 */
 		public static function markup_settings_page() {
-			if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
-				echo self::render_template( 'OSmedia-settings/page-settings.php' );
-			} else {
+            if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
+                $monitor_server = array();
+                // get Options (DA RIVEDERE)
+                $opts = self::get_settings();
+                extract($opts);
+                $dir = $OSmedia_path;
+				$url = $OSmedia_url;
+                            
+	            // 1. S3  
+	            if($OSmedia_s3server && $OSmedia_s3bucket) {
+	            	$s3_url = $OSmedia_s3server . $OSmedia_s3bucket . '/' . $opts['OSmedia_s3dir'];
+	            }else{ 
+	            	$s3_url = '';
+	            }
+				if ( isset($OSmedia_s3enable) && $OSmedia_s3enable && $s3_url ) {
+	                            $s3 = new S3($OSmedia_s3access, $OSmedia_s3secret);
+	                            $s3_array = $s3->getBucket($OSmedia_s3bucket);
+	                            if( isset($s3_array) && $s3_array!='' /*&& OSmedia_isValidUrl($s3_url)*/) {
+	                                $monitor_server['s3'] = 'ok'; 
+	                                $monitor_server['s3_color'] = 'green';
+	                            }else{
+	                                $monitor_server['s3'] = 'error';
+	                                $monitor_server['s3_color'] = 'red';
+	                            }
+				}else{
+					$monitor_server['s3'] = 'unset';
+	               	$monitor_server['s3_color'] = 'yellow';
+				}
+	            
+	            // 2. PATH
+	           	if( $dir ){
+					if( file_exists($dir) ){
+						$monitor_server['path'] = 'ok';
+	                    $monitor_server['path_color'] = 'green';
+					}else{
+						$monitor_server['path'] = 'error';
+	                   	$monitor_server['path_color'] = 'red';
+					}		   	
+				}else{
+					$monitor_server['path'] = 'unset';
+	                $monitor_server['path_color'] = 'yellow';
+				}
+	            
+	            // 3. URL
+	            if ( $url ) { // input URL
+			   		$url_test = OSmedia_isValidUrl($url);
+			   		if( $url_test == 'ok' ){
+						$monitor_server['url'] = 'ok';
+						$monitor_server['url_color'] = 'green';
+					}elseif( $url_test == 403 ){
+						$monitor_server['url'] = '403 Directory Listings Forbidden';
+						$monitor_server['url_color'] = 'orange';
+					}elseif( $url_test == 404 ){
+						$monitor_server['url'] = '404 Not Found';
+						$monitor_server['url_color'] = 'red';
+					}else{
+						$monitor_server['url'] = 'error';
+						$monitor_server['url_color'] = 'red';
+					}
+				}else{
+					$monitor_server['url'] = 'unset';
+					$monitor_server['url_color'] = 'yellow';
+				}
+
+                // echo '<pre style="font-size:12px">'; print_r($monitor_server); echo '</pre>'; 
+                echo self::render_template( 'OSmedia-settings/page-settings.php', array('monitor' => $monitor_server) );
+                        
+            } else {
 				wp_die( 'Access denied.' );
-			}
+            }
 		}
 
 		/**
@@ -331,33 +396,26 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 		 */
 		public function register_settings() {
 			//////////////////////////////
-			////////////////////////////// General Basic Section
-			add_settings_section('OSmedia_section_basic', 'Basic Settings', __CLASS__ . '::markup_section_headers', self::OPTS );
-			add_settings_field('OSmedia_path', 'local video path', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_path' ));
-			add_settings_field('OSmedia_url', 'video server URL', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_url' ));
+			////////////////////////////// Source Section
+			add_settings_section('OSmedia_section_source', 'Video Source Settings', __CLASS__ . '::markup_section_headers', self::OPTS );
+			add_settings_field('OSmedia_path', '1. local Path', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_path' ));
+			add_settings_field('OSmedia_url', '2. remote URL', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_url' ));          
+                        //////////////////////////////// s3
+			add_settings_field('OSmedia_s3enable', '3. enable Amazon S3', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3enable' ));
+			add_settings_field('OSmedia_s3server', 'S3 server url', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3server' ));
+			add_settings_field('OSmedia_s3access', 'S3 access key', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3access' ));
+			add_settings_field('OSmedia_s3secret', 'S3 secret key', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3secret' ));
+			add_settings_field('OSmedia_s3bucket', 'S3 bucket', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3bucket' ));
+			add_settings_field('OSmedia_s3dir', 'S3 directory', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_source', array( 'label_for' => 'OSmedia_s3dir' ));     
+                        ////////////////////////////////////// BASE Section
+                        add_settings_section('OSmedia_section_basic', 'Base Settings', __CLASS__ . '::markup_section_headers', self::OPTS );
 			add_settings_field('OSmedia_shortcode', 'video shortcode', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_shortcode' ));
 			add_settings_field('OSmedia_autoplay', 'autoplay', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_autoplay' ));
 			add_settings_field('OSmedia_loop', 'loop', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_loop' ));
 			add_settings_field('OSmedia_preload', 'preload', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_preload' ));
 			add_settings_field('OSmedia_fallback1', 'fallback 1', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_fallback1' ));
 			add_settings_field('OSmedia_fallback2', 'fallback 2', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_basic', array( 'label_for' => 'OSmedia_fallback2' ));
-			////////////////////////////// Advanced Section (You Tube)
-			add_settings_section('OSmedia_section_advanced', 'Advanced Settings (You Tube)', __CLASS__ . '::markup_section_headers', self::OPTS );
-			add_settings_field('OSmedia_yt_vjs', 'Play Youtube videos through videojs', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_vjs' ));
-			add_settings_field('OSmedia_yt_html5', 'use Youtube HTML5 player', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_html5' ));
-			add_settings_field('OSmedia_yt_logo', 'hide Youtube logo', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_logo' ));
-			add_settings_field('OSmedia_yt_https', 'use Youtube HTTPS protocol', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_https' ));
-			add_settings_field('OSmedia_yt_info', 'hide Youtube info', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_info' ));
-			add_settings_field('OSmedia_yt_related', 'hide Youtube related video', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_related' ));
-			//////////////////////////////// Advanced Section (s3)
-			add_settings_section('OSmedia_section_advanced_s3', 'Amazon Simple Storage Server (S3)', __CLASS__ . '::markup_section_headers', self::OPTS );
-			add_settings_field('OSmedia_s3enable', 'enable S3', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3enable' ));
-			add_settings_field('OSmedia_s3server', 'S3 server url', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3server' ));
-			add_settings_field('OSmedia_s3access', 'S3 access key', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3access' ));
-			add_settings_field('OSmedia_s3secret', 'S3 secret key', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3secret' ));
-			add_settings_field('OSmedia_s3bucket', 'S3 bucket', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3bucket' ));
-			add_settings_field('OSmedia_s3dir', 'S3 directory', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced_s3', array( 'label_for' => 'OSmedia_s3dir' ));
-			////////////////////////////// Player Section 
+                        ////////////////////////////// Player Section 
 			add_settings_section('OSmedia_section_player', 'Player Settings', __CLASS__ . '::markup_section_headers', self::OPTS);
 			add_settings_field('OSmedia_width', 'width', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_width' ));
 			add_settings_field('OSmedia_height', 'height', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_height' ));
@@ -367,6 +425,14 @@ if ( ! class_exists( 'OSmedia_Settings' ) ) {
 			add_settings_field('OSmedia_color1', 'Icon Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color1' ));
 			add_settings_field('OSmedia_color2', 'Bar Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color2' ));
 			add_settings_field('OSmedia_color3', 'Background Color', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_player', array( 'label_for' => 'OSmedia_color3' ));
+			////////////////////////////// Advanced Section (You Tube)
+			add_settings_section('OSmedia_section_advanced', 'Advanced Settings (You Tube)', __CLASS__ . '::markup_section_headers', self::OPTS );
+			add_settings_field('OSmedia_yt_vjs', 'Play Youtube videos through videojs', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_vjs' ));
+			add_settings_field('OSmedia_yt_html5', 'use Youtube HTML5 player', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_html5' ));
+			add_settings_field('OSmedia_yt_logo', 'hide Youtube logo', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_logo' ));
+			add_settings_field('OSmedia_yt_https', 'use Youtube HTTPS protocol', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_https' ));
+			add_settings_field('OSmedia_yt_info', 'hide Youtube info', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_info' ));
+			add_settings_field('OSmedia_yt_related', 'hide Youtube related video', array( $this, 'markup_fields' ), self::OPTS, 'OSmedia_section_advanced', array( 'label_for' => 'OSmedia_yt_related' ));
 
 			////////////////////////////// The settings container 
 			register_setting(self::OPTS, self::OPTS, array( $this, 'validate_settings' ) );

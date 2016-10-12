@@ -5,7 +5,7 @@ input, select {clear:both;}
 
 /*  admin area */
 
-table.form-table {}
+table.form-table { border-bottom: solid silver 1px; }
 	table.form-table tbody tr th, table.form-table tbody tr td {padding:4px; margin:3px;}
 
 /* custom post type list - category */
@@ -23,18 +23,31 @@ table.metabox_table {border:solid silver 1px; width: 100%; background-color: #ef
 div.box_video {width:auto; padding:8px; background-color: #eee}
 div.inside p {margin:4px; padding:0;}
 
-#OSmedia_file {min-width:100px;}
-select option.default_opt{ font-style: italic; }
+#OSmedia_file { min-width:100px; }
+select#OSmedia_file option.opt_element { font-weight:bold; }
+select#OSmedia_file option.default_opt{ font-style: italic; color: #32373c}
 
 input.size_field {width:60px;}
 input.size_field_height {width:60px; margin-left: 20px}
 input#gen_shortcode, input#reset_btn  {width: 150px; margin:0 8px 0 8px;}
 
-ul.server-monitor-list{}
-	ul.server-monitor-list li {margin:0; padding:0; line-height: 1; }
-		ul.server-monitor-list li span { width:150px; }
-		ul.server-monitor-list li.ok span { color: green; font-weight: bold}
-		ul.server-monitor-list li.unset span { color: orange; font-weight: bold}
-		ul.server-monitor-list li.error span { color: red; font-weight: bold}
+table#server-monitor { border-collapse: collapse; width:350px;}
+	table#server-monitor th { border: 2px solid silver; font-size:13px; padding:3px; text-align:center; background-color: silver; }	 
+	table#server-monitor td { border: 2px solid silver; font-size:13px; padding:3px; text-align:center; }	 
+	.server-monitor_yellow {background-color: #f9f906; }
+	.server-monitor_green {background-color: #1eae42; color: white }
+	.server-monitor_orange {background-color: #ffbf00; }
+	.server-monitor_red {background-color: #cc3333; color: white } 
+
+	.blue 		{ color: #002699; }
+	.green 		{ color: #008020; }
+	.orange 	{ color: #cc3300; }
+	.red		{ color: #992600; } 
+	
+table#monitor_table{ margin-left:auto; margin-right:auto; }
+	.b_blue 	{ background-color: #002699; width:10px; height:10px;}
+	.b_green 	{ background-color: #008020; width:10px; height:10px; }
+	.b_orange 	{ background-color: #cc3300; width:10px; height:10px; }
+	.b_red 		{ background-color: #992600; width:10px; height:10px; } 
 
 .xdebug-var-dump {font-size:12px}

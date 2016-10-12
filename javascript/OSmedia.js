@@ -27,39 +27,55 @@ function OSmediaWrapper( $ ) {
 		 * Registers event handlers
 		 */
 		registerEventHandlers: function () {	
-                        
-                    // flag input change SELECT/INPUT for video file selection
-                    $('#flag_input').change(function() {
-                        if($("select#OSmedia_file").is(":visible")){
-                            $('select#OSmedia_file').hide();
-                            $('select#OSmedia_file').prop('disabled', true);
-                            $('input#OSmedia_file').show();
-                            $('input#OSmedia_file').prop('disabled', false);
-                            $('input#OSmedia_file').val(''); 	// cancella nome file dall'input
-                            $("#OSmedia_fileurl").val(2); 		// input manuale fa riferimento sempre al server 2
-                        }else{
-                            $('input#OSmedia_file').hide();
-                            $('input#OSmedia_file').prop('disabled', true);
-                            $('select#OSmedia_file').show();
-                            $('select#OSmedia_file').prop('disabled', false);
-                            $("select#OSmedia_file option:first").attr('selected','selected'); // va al primo option della select
-                            $("#OSmedia_fileurl").val('');
-                        }
-                    });
-                    // selezione server       
-                    $("select#OSmedia_file").change(function() {
-                        if($("select#OSmedia_file").is(":visible")) {
-                            var sel_url = $(this).find(':selected').attr('data-url');	
-                            $("#OSmedia_fileurl").val(sel_url);
-                        }
-                    });
-                        
-                    $( '#gen_shortcode' ).click( OSmedia.genShortcode );
-                    $( '#reset_btn' ).click( OSmedia.resetForm );
-                    $( '#upload_button1' ).click( OSmedia.upload1 );
-                    $( '#upload_button2' ).click( OSmedia.upload2 );
-                    $( '#upload_button3' ).click( OSmedia.upload3 );
-                    $( '#upload_button4' ).click( OSmedia.upload4 );
+
+            if($("input#OSmedia_file").is(":visible"))
+				$("#OSmedia_fileurl").val(2);
+
+            // flag input change SELECT/INPUT for video file selection
+            $('#flag_input').change(function() {
+                if($("select#OSmedia_file").is(":visible")){
+                        $('select#OSmedia_file').hide();
+                        $('select#OSmedia_file').prop('disabled', true);
+                        $('input#OSmedia_file').show();
+                        $('input#OSmedia_file').prop('disabled', false);
+                        $('input#OSmedia_file').val(''); 	// cancella nome file dall'input
+                        $('#OSmedia_fileurl').val(2); 	// input manuale fa riferimento sempre al server 2
+                }else{
+                        $('input#OSmedia_file').hide();
+                        $('input#OSmedia_file').prop('disabled', true);
+                        $('select#OSmedia_file').show();
+                        $('select#OSmedia_file').prop('disabled', false);
+                        $("select#OSmedia_file option:first").attr('selected','selected'); // va al primo option della select
+                        $('select#OSmedia_file').removeAttr('class');
+                        $("#OSmedia_fileurl").val('');
+                    }
+            });
+
+            // selezione server       
+            $("select#OSmedia_file").change(function() {
+                if($("select#OSmedia_file").is(":visible")) {
+                	var color = '';
+                    var sel_url = $(this).find(':selected').attr('data-url');	
+                    $("#OSmedia_fileurl").val(sel_url);
+                    // COLORI
+                    $("select#OSmedia_file").removeAttr('class');
+                    switch( sel_url ){
+                            case '1': color = 'green'; break;
+                            case '2': color = 'blue'; break;
+                            case '3': color = 'orange'; break;
+                    }
+                    $("select#OSmedia_file").addClass('s_'+color);
+                    if( !sel_url || sel_url == '' ) $("select#OSmedia_file").removeAttr('class');
+                    else $("select#OSmedia_file").addClass(color);
+                }
+            });
+                
+            $( '#gen_shortcode' ).click( OSmedia.genShortcode );
+            $( '#reset_btn' ).click( OSmedia.resetForm );
+            $( '#upload_button1' ).click( OSmedia.upload1 );
+            $( '#upload_button2' ).click( OSmedia.upload2 );
+            $( '#upload_button3' ).click( OSmedia.upload3 );
+            $( '#upload_button4' ).click( OSmedia.upload4 );
 		},
 
 		/**
@@ -70,9 +86,7 @@ function OSmediaWrapper( $ ) {
 		genShortcode: function ( event ) {
 
 			var shortcode_name = $('#OSmedia_shortcode_name').val();
-                        
-                        var name_file = '';
-
+            var name_file = '';
 			var shortcode = '['+shortcode_name;
 			// selezione file
 			if($("select#OSmedia_file").is(":visible")){
@@ -143,7 +157,20 @@ function OSmediaWrapper( $ ) {
 	        	e.preventDefault();
 	        	return;
 	    	}
-	    	// submit the form via ajax, e.g. via the forms plugin
+	    	$('#OSmedia_file').val('');
+	    	$('#OSmedia_fileurl').val('');
+			$('#OSmedia_mp4').val('');
+			$('#OSmedia_webm').val('');
+			$('#OSmedia_ogg').val('');
+			$('#OSmedia_img').val('');
+			$('#OSmedia_youtube').val('');
+			$('#OSmedia_vimeo').val('');
+			$('#OSmedia_width').val('');
+			$('#OSmedia_height').val('');
+			$('#OSmedia_class').val('');
+			$('#OSmedia_start_m').val('');
+			$('#OSmedia_start_s').val('');
+			$('select#OSmedia_file').removeAttr('class');
 		},
 
 		/**
