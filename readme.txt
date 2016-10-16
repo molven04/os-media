@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: video, featured, post, page, streaming, custom post type, thumbnail, poster, autoplay, amazon, s3, cover image, cover video, embed, embedding, embed youtube, embed vimeo, embed videos, videojs, iframe, loop, player, plugin, responsive, shortcode, youtube, youtube embed, youtube player, youtube videos, video cover, HTML5, vimeo, vimeo player, vimeo embed, vimeo videos
 
-For Featured video contents based on the latest HTML5 Video-js library (5.2.1). It works with Local Media, Amazon S3, Youtube & Vimeo. 
+For Featured video contents based on the latest HTML5 Video-js library (5.2.1). It works with local & remote media, Amazon S3, Youtube & Vimeo. 
 
 == Description ==
 
